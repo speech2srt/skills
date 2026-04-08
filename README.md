@@ -34,3 +34,8 @@ modal volume get speech2srt-denoise-data /<path>/output/ ./path/to/results_dir
 ```bash
     modal deploy denoise.py
 ```
+
+## Acknowledgments
+
+- [ClearVoice](https://huggingface.co/spaces/alibabasglab/ClearVoice) — MossFormer2 speech enhancement
+- [Modal](https://modal.com) — GPU cloud infrastructure
