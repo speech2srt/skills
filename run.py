@@ -8,7 +8,7 @@ Usage:
     modal run run.py --path <path>
 """
 
-from src import config, images, ingress
+from src import config, images, ingress, denoise
 
 
 @images.app.local_entrypoint()
@@ -21,13 +21,23 @@ def main(path: str) -> None:
     print()
 
     # Stage 1: Ingress (CPU) - converts uploads to standardized flac
-    # This blocks until ingress completes, then it spawns denoise
     results = ingress.ingress.remote(path)
 
-    if results:
-        print(f"\nPipeline complete. Converted {len(results)} files.")
-    else:
+    if not results:
         print("\nIngress completed but no audio files were converted.")
+        return
+
+    print(f"\nIngress complete. Converted {len(results)} files.")
+    print("Starting denoise stage on L4 GPU...")
+
+    # Stage 2: Denoise (L4 GPU) - enhances flac files
+    # Call directly instead of spawn to ensure it runs after ingress completes
+    denoise_results = denoise.denoise.remote(path)
+
+    if denoise_results:
+        print(f"\nPipeline complete. Enhanced {len(denoise_results)} files.")
+    else:
+        print("\nDenoise stage completed but no files were enhanced.")
 
 
 if __name__ == "__main__":

@@ -102,11 +102,4 @@ def ingress(path: str) -> list[dict]:
     print(f"\n[INGRESS] Done. Converted {len(results)} files")
     images.volume_data.commit()
 
-    print("[INGRESS] Spawning denoise stage...")
-
-    # Import here to avoid circular import at module level
-    from src import denoise as denoise_module
-
-    denoise_module.denoise.spawn(path)
-
     return results
