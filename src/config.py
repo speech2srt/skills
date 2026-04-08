@@ -17,10 +17,12 @@ VOLUME_MODELS_NAME = "speech2srt-denoise-models"
 MOUNT_DATA = "/mnt/data"
 MOUNT_MODELS = "/mnt/models"
 
-# Pipeline directory names (under /mnt/data/<path>/)
-DIR_UPLOAD = "upload"
-DIR_INPUT = "input"
-DIR_OUTPUT = "output"
+# Pipeline directory names
+DIR_UPLOAD = "upload"  # under /mnt/data/<path>/
+DIR_OUTPUT = "output"  # under /mnt/data/<path>/
+
+# Intermediate files written to container SSD (not volume)
+TMP_PREFIX = "/tmp/speech2srt-denoise"
 
 # ============================================================
 # Audio Processing Config
@@ -40,12 +42,6 @@ ENHANCED_SUFFIX = "_enhanced.wav"
 # ============================================================
 # Timeout Config (seconds)
 # ============================================================
-TIMEOUT_INGRESS = 600  # Stage 1 (CPU)
-TIMEOUT_DENOISE = 1800  # Stage 2 (GPU)
+TIMEOUT_DENOISE = 1800  # Single stage (GPU)
 FFMPEG_TIMEOUT = 300  # per-file conversion
 FFPROBE_TIMEOUT = 30  # per-file probe
-
-# ============================================================
-# Debug / Logging Config
-# ============================================================
-DEBUG_LIST_LIMIT = 20  # max files to print in directory listing

@@ -2,6 +2,8 @@
 Modal image and infrastructure definitions - imported as: import src.images as images
 """
 
+from pathlib import Path
+
 import modal
 
 import src.config as config
@@ -17,21 +19,23 @@ volume_models = modal.Volume.from_name(
 
 
 # ============================================================
-# Images
+# Image
 # ============================================================
+# Copy src/ into the container so `import src` works at runtime
+_src_dir = str(Path(__file__).parent)
 
-# Lightweight CPU image: only ffmpeg, no ML dependencies
-image_ingress = modal.Image.debian_slim(
-    python_version=config.PYTHON_VERSION
-).apt_install("ffmpeg")
-
-# Full GPU image: inherits from image_ingress, adds clearvoice + torch
-image_denoise = image_ingress.pip_install(
-    [
-        "clearvoice",
-        "torch>=2.0.1",
-        "torchaudio>=2.0.2",
-    ]
+image_denoise = (
+    modal.Image.debian_slim(python_version=config.PYTHON_VERSION)
+    .apt_install("ffmpeg")
+    .pip_install(
+        [
+            "clearvoice",
+            "torch>=2.0.1",
+            "torchaudio>=2.0.2",
+        ]
+    )
+    .env({"TQDM_DISABLE": "1", "HF_HUB_DISABLE_PROGRESS": "1"})
+    .add_local_dir(_src_dir, remote_path="/root/src")
 )
 
 
