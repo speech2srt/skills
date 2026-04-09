@@ -13,6 +13,11 @@ if [ ! -d "$SKILL_DIR" ]; then
  exit 0
 fi
 
+# Check Python syntax before committing
+if [ -f "$SRC" ]; then
+ python3 -m py_compile "$SRC" 2>/dev/null || { echo "Syntax error in $SRC, commit aborted"; exit 1; }
+fi
+
 # Sync main entry point
 if [ -f "$SRC" ]; then
  cp -f "$SRC" "$SKILL_DIR/$SRC"
@@ -22,4 +27,9 @@ fi
 if [ -d "$SRC_DIR" ]; then
  mkdir -p "$SKILL_DIR/$SRC_DIR"
  rsync -av --delete "$SRC_DIR/" "$SKILL_DIR/$SRC_DIR/"
+fi
+
+# Remove __pycache__ from skill bundle (required for ClawHub publishing)
+if [ -d "$SKILL_DIR/src/__pycache__" ]; then
+ rm -rf "$SKILL_DIR/src/__pycache__"
 fi
