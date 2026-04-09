@@ -6,28 +6,43 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, power
 
 ## Available Skills
 
-- [x] **`speech-denoise`** — Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech.
-- [x] **`speech-isolate`** — Vocal isolation / background music removal via Demucs htdemucs_ft. Extract clean vocals from audio with background music.
+### 1. speech-denoise
+
+Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech.
+
+### 2. speech-isolate
+
+Vocal isolation / background music removal via Demucs htdemucs_ft. Extract clean vocals from audio with background music.
 
 ## Installation
 
 ```bash
-# All skills via skills.sh (Claude Code, Pochi, etc.)
+# For Claude Code, Antigravity, etc.
 npx skills add speech2srt/skills
 
-# Specific skill
-npx skills add speech2srt/skills@speech-denoise
-npx skills add speech2srt/skills@speech-isolate
-
-# For OpenClaw: install via ClawHub CLI
+# For OpenClaw
 clawhub install speech-denoise
 clawhub install speech-isolate
 ```
 
 ## Development
 
-Pipeline code lives at the repo root and is synced to `skills/` via pre-commit hook:
+Pipeline code lives at the repo root and is synced to `skills/` via pre-commit hook.
 
+`pre-commit.sh` located at project root, this hook runs automatically on `git commit` (when properly symlinked):
+
+**What it does:**
+1. **Syntax check** — validates Python entry points (`denoise.py`, `isolate.py`) with `py_compile`
+2. **Bundle sync** — copies entry points and `src/` directory into each skill bundle
+3. **Cleanup** — removes `__pycache__` and `.pyc` files across the repo
+
+**Setup (already done — for reference):**
+```bash
+# Create symlink to enable the hook
+ln -sf ../../pre-commit.sh .git/hooks/pre-commit
+```
+
+**File structure:**
 ```
 denoise.py          ← speech-denoise entry point
 isolate.py          ← speech-isolate entry point
@@ -43,4 +58,4 @@ skills/
 - [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — ClearerVoice-Studio speech enhancement toolkit (MossFormer2 model)
 - [Demucs](https://github.com/facebookresearch/demucs) — Hybrid Transformer for music source separation (htdemucs_ft model)
 - [skills.sh](https://skills.sh) — open agent skills ecosystem
-- [ClawHub](https://clawhub.ai) — skill distribution platform
+- [ClawHub](https://clawhub.ai) — OpenClaw skills distribution platform
