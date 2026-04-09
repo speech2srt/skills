@@ -3,26 +3,59 @@ Pipeline constants - imported as: import src.config as config
 """
 
 # ============================================================
-# App & Infrastructure Config
+# App & Infrastructure Config (shared)
 # ============================================================
-APP_NAME = "denoise-by-speech2srt.com"
 GPU_TYPE = "L4"
 PYTHON_VERSION = "3.11"
 
+# ============================================================
+# Denoise Pipeline Config
+# ============================================================
+APP_NAME_DENOISE = "denoise-by-speech2srt.com"
+
 # Volume names
-VOLUME_DATA_NAME = "speech2srt-denoise-data"
-VOLUME_MODELS_NAME = "speech2srt-denoise-models"
+VOLUME_DATA_NAME_DENOISE = "speech2srt-denoise-data"
+VOLUME_MODELS_NAME_DENOISE = "speech2srt-denoise-models"
 
 # Volume mount points
-MOUNT_DATA = "/mnt/data"
-MOUNT_MODELS = "/mnt/models"
+MOUNT_DATA_DENOISE = "/mnt/data"
+MOUNT_MODELS_DENOISE = "/mnt/models"
 
 # Pipeline directory names
 DIR_UPLOAD = "upload"  # under /mnt/data/<path>/
 DIR_OUTPUT = "output"  # under /mnt/data/<path>/
 
 # Intermediate files written to container SSD (not volume)
-TMP_PREFIX = "/tmp/speech2srt-denoise"
+TMP_PREFIX_DENOISE = "/tmp/speech2srt-denoise"
+
+# ============================================================
+# Isolate Pipeline Config
+# ============================================================
+APP_NAME_ISOLATE = "isolate-by-speech2srt.com"
+
+# Volume names
+VOLUME_DATA_NAME_ISOLATE = "speech2srt-isolate-data"
+VOLUME_MODELS_NAME_ISOLATE = "speech2srt-isolate-models"
+
+# Volume mount points
+MOUNT_DATA_ISOLATE = "/mnt/isolate-data"
+MOUNT_MODELS_ISOLATE = "/mnt/isolate-models"
+
+# Intermediate files written to container SSD (not volume)
+TMP_PREFIX_ISOLATE = "/tmp/speech2srt-isolate"
+
+# Output suffix for isolated vocals
+VOCALS_SUFFIX = "_vocals.wav"
+
+# ============================================================
+# Legacy aliases (temporary - denoise.py uses these directly)
+# ============================================================
+APP_NAME = APP_NAME_DENOISE
+VOLUME_DATA_NAME = VOLUME_DATA_NAME_DENOISE
+VOLUME_MODELS_NAME = VOLUME_MODELS_NAME_DENOISE
+MOUNT_DATA = MOUNT_DATA_DENOISE
+MOUNT_MODELS = MOUNT_MODELS_DENOISE
+TMP_PREFIX = TMP_PREFIX_DENOISE
 
 # ============================================================
 # Audio Processing Config
