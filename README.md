@@ -39,15 +39,16 @@ npx skills add ./skills --skill speech-denoise
 
 ### Via ClawHub
 
-Requires: [ClawHub CLI](https://clawhub.ai)
+Requires: [ClawHub CLI](https://clawhub.ai) — `npx clawhub@latest` or install via Bun/m npm
 
 ```bash
-# Publish (maintainer)
-clawhub publish speech2srt/skills/speech-denoise
-
-# Install
+# Install from ClawHub
+clawhub install speech-denoise
+# or via full path
 clawhub install speech2srt/speech-denoise
 ```
+
+See [clawhub.ai/speech2srt/speech-denoise](https://clawhub.ai/speech2srt/speech-denoise) for details, version history, and security scan.
 
 ## Skill: speech-denoise
 
