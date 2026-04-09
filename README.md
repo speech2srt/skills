@@ -4,11 +4,7 @@
 
 # Speech & Vocal Skills
 
----
-
 Speech/audio processing skills — runs on **[Modal](https://modal.com)**, created by **[Speech2SRT](https://speech2srt.com)**.
-
----
 
 [English](README.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md)
 
@@ -23,6 +19,13 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, creat
 ### 1. speech-denoise
 
 Studio-quality vocal denoising via ClearerVoice-Studio `MossFormer2`. Upload noisy audio, get clean speech.
+
+**Performance (L4 GPU, Modal):**
+| Audio Duration | GPU Time | RTF |
+|---|---|---|
+| ~7 min | 20s | 0.05x |
+| ~10 min | 28s | 0.05x |
+| **~17 min total** | **80s wall** | **0.08x** |
 
 ### 2. speech-isolate
 
