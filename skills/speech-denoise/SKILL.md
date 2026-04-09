@@ -1,7 +1,7 @@
 ---
 name: speech-denoise
-description: Speech enhancement / vocal denoising on remote (FREE) L4 GPU. Trigger when user says: denoise, remove noise, clean up audio, 去噪, 降噪, enhance audio. Takes local audio/video files and returns noise-reduced speech audio.
-version: v1.2.0
+description: "Speech enhancement / vocal denoising on remote (FREE) L4 GPU. Trigger when user says: denoise, remove noise, clean up audio, 去噪, 降噪, enhance audio. Takes local audio/video files and returns noise-reduced speech audio."
+version: v1.2.1
 ---
 
 # Speech Denoise
