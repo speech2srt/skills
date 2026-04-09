@@ -7,7 +7,7 @@
 **你的錄音，從此沒有噪音。**
 
 住在嘈雜的公寓？功放有嗡嗡聲？頭頂有飛機飛過？
-我們來解決。幾秒鐘完成去噪——運行在 Modal L4 GPU 上，而且免費。
+這個 Skill 來解決。幾秒鐘完成去噪——運行在 Modal L4 GPU 上，而且免費。
 
 Built for ourselves. Open to everyone.
 

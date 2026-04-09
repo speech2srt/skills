@@ -7,7 +7,7 @@
 **Your voice recordings, now noise-free.**
 
 Recorded in a noisy apartment? Your preamp humming? Plane flying overhead?
-We fix it. Denoise audio in seconds - runs on Modal L4 GPU and FREE.
+This skill fixes it. Denoise audio in seconds - runs on Modal L4 GPU and FREE.
 
 Built for ourselves. Open to everyone.
 
