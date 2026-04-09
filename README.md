@@ -7,7 +7,7 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, power
 ## Available Skills
 
 - [x] **`speech-denoise`** — Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech.
-- [ ] **`speech-remove-bgm`** — Remove background music from voice recordings while preserving speech clarity.
+- [x] **`speech-isolate`** — Vocal isolation / background music removal via Demucs htdemucs_ft. Extract clean vocals from audio with background music.
 
 ## Installation
 
@@ -17,24 +17,30 @@ npx skills add speech2srt/skills
 
 # Specific skill
 npx skills add speech2srt/skills@speech-denoise
+npx skills add speech2srt/skills@speech-isolate
 
 # For OpenClaw: install via ClawHub CLI
 clawhub install speech-denoise
+clawhub install speech-isolate
 ```
 
 ## Development
 
-Pipeline code lives at the repo root and is synced to `skills/speech-denoise/` via pre-commit hook:
+Pipeline code lives at the repo root and is synced to `skills/` via pre-commit hook:
 
 ```
-denoise.py          ← pipeline entry point
-src/                ← config, images (synced to skill)
-skills/             ← skill bundles (distributed to agents)
+denoise.py          ← speech-denoise entry point
+isolate.py          ← speech-isolate entry point
+src/                ← config, images (synced to all skills)
+skills/
+├── speech-denoise/ ← bundled with denoise.py + src/
+└── speech-isolate/ ← bundled with isolate.py + src/
 ```
 
 ## Acknowledgments
 
 - [Modal](https://modal.com) — GPU cloud infrastructure
 - [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — ClearerVoice-Studio speech enhancement toolkit (MossFormer2 model)
+- [Demucs](https://github.com/facebookresearch/demucs) — Hybrid Transformer for music source separation (htdemucs_ft model)
 - [skills.sh](https://skills.sh) — open agent skills ecosystem
 - [ClawHub](https://clawhub.ai) — skill distribution platform
