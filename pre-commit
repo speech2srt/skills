@@ -33,3 +33,7 @@ fi
 if [ -d "$SKILL_DIR/src/__pycache__" ]; then
  rm -rf "$SKILL_DIR/src/__pycache__"
 fi
+
+# Clean all __pycache__ and .pyc files across the repo
+find . -type d -name __pycache__ -not -path './.git/*' -exec rm -rf {} + 2>/dev/null || true
+find . -name '*.pyc' -not -path './.git/*' -delete 2>/dev/null || true
