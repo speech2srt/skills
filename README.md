@@ -11,45 +11,20 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, power
 
 ## Installation
 
-### Via `npx skills` (skills.sh ecosystem)
-
-Requires: [skills.sh compatible client](https://skills.sh) (Claude Code, OpenClaw, Pochi, etc.)
-
-**Install all skills:**
 ```bash
+# All skills via skills.sh (Claude Code, Pochi, etc.)
 npx skills add speech2srt/skills
-```
 
-**Install specific skill:**
-```bash
+# Specific skill
 npx skills add speech2srt/skills@speech-denoise
-# or
-npx skills add speech2srt/skills --skill speech-denoise
-```
 
-**List available skills without installing:**
-```bash
+# List all available skills
 npx skills add speech2srt/skills --list
-```
 
-**Local development:**
-```bash
-npx skills add ./skills --list
-npx skills add ./skills --skill speech-denoise
-```
-
-### Via ClawHub
-
-Requires: [ClawHub CLI](https://clawhub.ai) — `npx clawhub@latest` or install via Bun/m npm
-
-```bash
-# Install from ClawHub
-clawhub install speech-denoise
-# or via full path
-clawhub install speech2srt/speech-denoise
-```
-
-See [clawhub.ai/speech2srt/speech-denoise](https://clawhub.ai/speech2srt/speech-denoise) for details, version history, and security scan.
+# For OpenClaw: install via ClawHub CLI instead
+#   npx clawhub@latest          # one-time install ClawHub CLI
+#   clawhub install speech-denoise
+# See clawhub.ai/speech2srt/speech-denoise for details
 
 ## Skill: speech-denoise
 
