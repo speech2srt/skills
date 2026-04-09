@@ -32,9 +32,10 @@ TMP_PREFIX_ISOLATE = "/tmp/speech2srt-isolate"
 APP_NAME = "speech2srt.com"
 
 # ============================================================
-# Denoise Pipeline
+# Output Suffixes
 # ============================================================
-VOCALS_SUFFIX = "_vocals.wav"  # also used by isolate for output naming
+ENHANCED_SUFFIX = "_enhanced.wav"  # denoise pipeline output
+VOCALS_SUFFIX = "_vocals.wav"  # isolate pipeline output
 
 # ============================================================
 # Legacy aliases
@@ -64,7 +65,6 @@ AUDIO_STEREO_NDIM = 2  # shape dimension that indicates (channels, samples) layo
 # File Extension Config
 # ============================================================
 FLAC_EXTENSION = ".flac"
-ENHANCED_SUFFIX = "_enhanced.wav"
 
 # ============================================================
 # Timeout Config (seconds)
