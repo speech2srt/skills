@@ -6,7 +6,8 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, power
 
 ## Available Skills
 
-- **`speech-denoise`** — Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech.
+- [x] **`speech-denoise`** — Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech.
+- [ ] **`speech-remove-bgm`** — Remove background music from voice recordings while preserving speech clarity.
 
 ## Installation
 
