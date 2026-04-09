@@ -1,6 +1,8 @@
 # Speech Processing Skills
 
-A skills collection for speech/audio processing tasks — bundled as a monorepo under `skills/` for easy distribution.
+Speech/audio processing skills powered by **Modal** — each skill runs GPU workloads on Modal's L4 instances at no cost, thanks to Modal's **$30/month free credit** for new users.
+
+> Modal provides $30 in free GPU compute monthly — enough to process hundreds of audio files with these skills at zero cost.
 
 ## Available Skills
 
