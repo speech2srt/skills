@@ -31,6 +31,11 @@ Studio-quality vocal denoising via ClearerVoice-Studio `MossFormer2`. Upload noi
 
 Vocal isolation / background music removal via Demucs `htdemucs_ft`. Extract clean vocals from audio with background music.
 
+**Performance (L4 GPU, Modal):**
+| Audio Duration | GPU Time | RTF |
+|---|---|---|
+| ~6 min | 30s | 0.09x |
+
 ## Installation
 
 ```bash
