@@ -16,11 +16,11 @@ src/
 ## Pipeline Flow
 
 ```
-/mnt/data/<path>/upload/*.m4a
+/mnt/data/<slug>/upload/*.m4a
     └── [denoise - L4 GPU, ThreadPoolExecutor]
-            ├── Thread-1: ffmpeg CPU conversion → /tmp/speech2srt-denoise/<path>/*.flac
+            ├── Thread-1: ffmpeg CPU conversion → /tmp/speech2srt-denoise/<slug>/*.flac
             └── Thread-2: ClearVoice model loading (GPU)
-            → GPU inference → /mnt/data/<path>/output/*_enhanced.wav
+            → GPU inference → /mnt/data/<slug>/output/*_enhanced.wav
 ```
 
 ## Parallelization
@@ -46,7 +46,7 @@ Each stage reports wall-clock elapsed time and RTF (Real-Time Factor = processin
 ## Running
 
 ```bash
-modal run denoise.py --path <path>
+modal run denoise.py --slug <slug>
 ```
 
 ## Key Conventions
@@ -64,4 +64,4 @@ modal run denoise.py --path <path>
 |-------|--------|---------|
 | `/mnt/data` | speech2srt-denoise-data | upload/, output/ files |
 | `/mnt/models` | speech2srt-denoise-models | ClearVoice checkpoints |
-| `/tmp/speech2srt-denoise/<path>` | (container SSD) | intermediate .flac files |
+| `/tmp/speech2srt-denoise/<slug>` | (container SSD) | intermediate .flac files |

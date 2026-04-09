@@ -10,7 +10,7 @@ modal volume create speech2srt-denoise-data
 modal volume create speech2srt-denoise-models
 
 # Run locally
-    modal run denoise.py --path <path>
+    modal run denoise.py --slug <slug>
 ```
 
 ## How It Works
@@ -23,10 +23,10 @@ modal volume create speech2srt-denoise-models
 
 ```bash
 # Upload files to upload/
-modal volume put speech2srt-denoise-data ./your-audio.mp4 /<path>/upload/
+modal volume put speech2srt-denoise-data ./your-audio.mp4 /<slug>/upload/
 
 # Download results from output/
-modal volume get speech2srt-denoise-data /<path>/output/ ./path/to/results_dir
+modal volume get speech2srt-denoise-data /<slug>/output/ ./path/to/results_dir
 ```
 
 ## Deploy
