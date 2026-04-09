@@ -4,7 +4,7 @@ description: Speech enhancement / vocal denoising on Modal L4 GPU. Trigger when 
 version: 1.0.0
 ---
 
-# Vocal Denoise
+# Speech Denoise
 
 Single-stage speech enhancement pipeline — ffmpeg + ClearVoice MossFormer2 GPU inference in one Modal container.
 
