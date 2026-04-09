@@ -1,18 +1,32 @@
+<div align="center">
+
+![banner](banner.jpg)
+
 # Speech & Vocal Skills
 
-Speech/audio processing skills — runs on **[Modal](https://modal.com)**, powered by **[Speech2SRT](https://speech2srt.com)**.
+---
 
-> Modal provides $30 in free GPU compute monthly — enough to process hundreds of audio files with these skills at zero cost.
+Speech/audio processing skills — runs on **[Modal](https://modal.com)**, created by **[Speech2SRT](https://speech2srt.com)**.
+
+---
+
+[English](README.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md)
+
+</div>
+
+---
+
+> Many thanks to **[Modal](https://modal.com)**, they provides $30 in free GPU compute monthly — enough to process hundreds of audio files with these skills at zero cost.
 
 ## Available Skills
 
 ### 1. speech-denoise
 
-Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech.
+Studio-quality vocal denoising via ClearerVoice-Studio `MossFormer2`. Upload noisy audio, get clean speech.
 
 ### 2. speech-isolate
 
-Vocal isolation / background music removal via Demucs htdemucs_ft. Extract clean vocals from audio with background music.
+Vocal isolation / background music removal via Demucs `htdemucs_ft`. Extract clean vocals from audio with background music.
 
 ## Installation
 
@@ -24,6 +38,8 @@ npx skills add speech2srt/skills
 clawhub install speech-denoise
 clawhub install speech-isolate
 ```
+
+> If you are using [OpenClaw](https://openclaw.ai), just ask you pal to `install speech-denoise skill` or `install speech-isolate skill`.
 
 ## Development
 
