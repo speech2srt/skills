@@ -1,6 +1,6 @@
 # Speech & Vocal Skills
 
-Speech/audio processing skills powered by **[Modal](https://modal.com)** — each skill runs GPU workloads on Modal's L4 instances at no cost, thanks to Modal's **$30/month free credit** for new users.
+Speech/audio processing skills — runs on **[Modal](https://modal.com)**, powered by **[Speech2SRT](https://speech2srt.com)**.
 
 > Modal provides $30 in free GPU compute monthly — enough to process hundreds of audio files with these skills at zero cost.
 
