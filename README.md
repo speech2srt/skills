@@ -20,21 +20,18 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, creat
 
 Studio-quality vocal denoising via ClearerVoice-Studio `MossFormer2`. Upload noisy audio, get clean speech.
 
-**Performance (L4 GPU, Modal):**
-| Audio Duration | GPU Time | RTF |
-|---|---|---|
-| ~7 min | 20s | 0.05x |
-| ~10 min | 28s | 0.05x |
-| **~17 min total** | **80s wall** | **0.08x** |
-
 ### 2. speech-isolate
 
 Vocal isolation / background music removal via Demucs `htdemucs_ft`. Extract clean vocals from audio with background music.
 
-**Performance (L4 GPU, Modal):**
-| Audio Duration | GPU Time | RTF |
-|---|---|---|
-| ~6 min | 30s | 0.09x |
+## Performance
+
+**L4 GPU on Modal — real-world benchmarks:**
+
+| Skill | Audio Duration | GPU Time | Wall Time | RTF |
+|-------|----------------|----------|-----------|-----|
+| speech-denoise | ~17 min (2 files) | 48s | 80s | 0.08x |
+| speech-isolate | ~6 min (1 file) | 30s | 36s | 0.09x |
 
 ## Installation
 
