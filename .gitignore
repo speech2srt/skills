@@ -1,3 +1,7 @@
+**/*.m4a
+**/*.flac
+**/*.wav
+
 .sisyphus/
 
 # Byte-compiled / optimized / DLL files
