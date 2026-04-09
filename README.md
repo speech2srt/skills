@@ -18,13 +18,8 @@ npx skills add speech2srt/skills
 # Specific skill
 npx skills add speech2srt/skills@speech-denoise
 
-# List all available skills
-npx skills add speech2srt/skills --list
-
-# For OpenClaw: install via ClawHub CLI instead
-#   npx clawhub@latest          # one-time install ClawHub CLI
-#   clawhub install speech-denoise
-# See clawhub.ai/speech2srt/speech-denoise for details
+# For OpenClaw: install via ClawHub CLI
+clawhub install speech-denoise
 ```
 
 ## Skill: speech-denoise
