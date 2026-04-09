@@ -74,7 +74,7 @@ skills/             ← skill bundles (distributed to agents)
 
 ## Acknowledgments
 
-- [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — ClearVoice speech enhancement model
 - [Modal](https://modal.com) — GPU cloud infrastructure
+- [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — ClearVoice speech enhancement model
 - [skills.sh](https://skills.sh) — open agent skills ecosystem
 - [ClawHub](https://clawhub.ai) — skill distribution platform
