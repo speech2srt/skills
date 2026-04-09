@@ -1,0 +1,25 @@
+#!/bin/bash
+# Pre-commit hook: sync skill bundle from project root
+# Keeps skills/speech-denoise/denoise.py and src/ in sync with project root
+
+set -e
+
+SKILL_DIR="skills/speech-denoise"
+SRC="denoise.py"
+SRC_DIR="src"
+
+# Only sync if skill directory exists
+if [ ! -d "$SKILL_DIR" ]; then
+ exit 0
+fi
+
+# Sync main entry point
+if [ -f "$SRC" ]; then
+ cp -f "$SRC" "$SKILL_DIR/$SRC"
+fi
+
+# Sync src/ directory
+if [ -d "$SRC_DIR" ]; then
+ mkdir -p "$SKILL_DIR/$SRC_DIR"
+ rsync -av --delete "$SRC_DIR/" "$SKILL_DIR/$SRC_DIR/"
+fi
