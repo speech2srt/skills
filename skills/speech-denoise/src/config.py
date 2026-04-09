@@ -27,29 +27,16 @@ TMP_PREFIX_DENOISE = "/tmp/speech2srt-denoise"
 TMP_PREFIX_ISOLATE = "/tmp/speech2srt-isolate"
 
 # ============================================================
-# Denoise Pipeline
+# App Name
 # ============================================================
-APP_NAME_DENOISE = "denoise-by-speech2srt.com"
+APP_NAME = "speech2srt.com"
 
 # ============================================================
-# Isolate Pipeline
+# Output Suffixes
 # ============================================================
-APP_NAME_ISOLATE = "isolate-by-speech2srt.com"
-VOCALS_SUFFIX = "_vocals.wav"
+ENHANCED_SUFFIX = "_enhanced.wav"  # denoise pipeline output
+VOCALS_SUFFIX = "_vocals.wav"  # isolate pipeline output
 
-# ============================================================
-# Legacy aliases
-# ============================================================
-APP_NAME = APP_NAME_DENOISE
-VOLUME_DATA_NAME_DENOISE = VOLUME_DATA_NAME
-VOLUME_MODELS_NAME_DENOISE = VOLUME_MODELS_NAME
-VOLUME_DATA_NAME_ISOLATE = VOLUME_DATA_NAME
-VOLUME_MODELS_NAME_ISOLATE = VOLUME_MODELS_NAME
-MOUNT_DATA_DENOISE = MOUNT_DATA
-MOUNT_MODELS_DENOISE = MOUNT_MODELS
-MOUNT_DATA_ISOLATE = MOUNT_DATA
-MOUNT_MODELS_ISOLATE = MOUNT_MODELS
-TMP_PREFIX = TMP_PREFIX_DENOISE
 
 # ============================================================
 # Audio Processing Config
@@ -64,7 +51,6 @@ AUDIO_STEREO_NDIM = 2  # shape dimension that indicates (channels, samples) layo
 # File Extension Config
 # ============================================================
 FLAC_EXTENSION = ".flac"
-ENHANCED_SUFFIX = "_enhanced.wav"
 
 # ============================================================
 # Timeout Config (seconds)

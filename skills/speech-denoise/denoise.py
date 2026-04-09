@@ -147,7 +147,9 @@ def _load_model():
     else:
         cache_mb = 0.0
 
-    log_lines.append(f"  ClearerVoice-Studio MossFormer2_SE_48K  [cache: {cache_mb:.2f}MB]")
+    log_lines.append(
+        f"  ClearerVoice-Studio MossFormer2_SE_48K  [cache: {cache_mb:.2f}MB]"
+    )
 
     model_t0 = time.monotonic()
     myClearVoice = ClearVoice(
@@ -179,7 +181,7 @@ def denoise(slug: str) -> list[dict]:
     t0 = time.monotonic()
 
     upload_dir = Path(config.MOUNT_DATA) / slug / config.DIR_UPLOAD
-    intermediate_dir = Path(config.TMP_PREFIX) / slug
+    intermediate_dir = Path(config.TMP_PREFIX_DENOISE) / slug
     output_dir = Path(config.MOUNT_DATA) / slug / config.DIR_OUTPUT
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -274,7 +276,7 @@ def denoise(slug: str) -> list[dict]:
         )
 
     # Clean up intermediate .flac files from container SSD
-    shutil.rmtree(Path(config.TMP_PREFIX) / slug, ignore_errors=True)
+    shutil.rmtree(Path(config.TMP_PREFIX_DENOISE) / slug, ignore_errors=True)
 
     elapsed = time.monotonic() - t0
     total_rtf = elapsed / total_audio_sec if total_audio_sec > 0 else 0

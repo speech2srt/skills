@@ -58,4 +58,4 @@ image_isolate = (
 # App Instances
 # ============================================================
 app = modal.App(config.APP_NAME)
-app_isolate = modal.App(config.APP_NAME_ISOLATE)
+app_isolate = modal.App(config.APP_NAME)
