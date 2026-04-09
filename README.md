@@ -4,6 +4,8 @@
 
 # Speech & Vocal Skills
 
+Built for ourselves. Open to everyone.
+
 Speech/audio processing skills — runs on **[Modal](https://modal.com)**, created by **[Speech2SRT](https://speech2srt.com)**.
 
 [English](README.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md)
