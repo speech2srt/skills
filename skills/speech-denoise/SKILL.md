@@ -75,7 +75,7 @@ Results:
 
 Before first run, verify:
 
-1. **Python 3.9+** — `python -V`. Below 3.9 → install from python.org
+1. **Python 3.9+** — `python -V`. Below 3.9 → tell user to install from python.org
 2. **Modal CLI** — `modal config show`:
    - `token_id` null → `modal setup` to authenticate
    - command not found → `pip install modal` then `modal setup`
