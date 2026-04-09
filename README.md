@@ -6,7 +6,7 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, power
 
 ## Available Skills
 
-- **`speech-denoise`** — Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech — runs free on Modal L4 GPU.
+- **`speech-denoise`** — Studio-quality vocal denoising via ClearerVoice-Studio MossFormer2. Upload noisy audio, get clean speech.
 
 ## Installation
 
