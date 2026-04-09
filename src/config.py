@@ -27,20 +27,20 @@ TMP_PREFIX_DENOISE = "/tmp/speech2srt-denoise"
 TMP_PREFIX_ISOLATE = "/tmp/speech2srt-isolate"
 
 # ============================================================
-# Denoise Pipeline
+# App Name
 # ============================================================
-APP_NAME_DENOISE = "denoise-by-speech2srt.com"
+APP_NAME = "speech2srt.com"
 
 # ============================================================
-# Isolate Pipeline
+# Denoise Pipeline
 # ============================================================
-APP_NAME_ISOLATE = "isolate-by-speech2srt.com"
-VOCALS_SUFFIX = "_vocals.wav"
+VOCALS_SUFFIX = "_vocals.wav"  # also used by isolate for output naming
 
 # ============================================================
 # Legacy aliases
 # ============================================================
-APP_NAME = APP_NAME_DENOISE
+APP_NAME_DENOISE = APP_NAME
+APP_NAME_ISOLATE = APP_NAME
 VOLUME_DATA_NAME_DENOISE = VOLUME_DATA_NAME
 VOLUME_MODELS_NAME_DENOISE = VOLUME_MODELS_NAME
 VOLUME_DATA_NAME_ISOLATE = VOLUME_DATA_NAME
