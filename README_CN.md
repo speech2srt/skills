@@ -44,7 +44,7 @@ npx skills add speech2srt/skills
 
 ---
 
-## One more thing...
+## ✨ One more thing...
 
 **🎵 speech-isolate** — 从任何音轨中人声提取。
 

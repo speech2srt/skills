@@ -44,7 +44,7 @@ For OpenClaw, just tell your agent: `install speech-denoise skill` or `install s
 
 ---
 
-## One more thing...
+## ✨ One more thing...
 
 **🎵 speech-isolate** - Extract vocals from any audio track.
 
