@@ -4,9 +4,12 @@
 
 # Speech & Vocal Skills
 
-Built for ourselves. Open to everyone.
+**Your voice recordings, now noise-free.**
 
-Speech/audio processing skills — runs on **[Modal](https://modal.com)**, created by **[Speech2SRT](https://speech2srt.com)**.
+Recorded in a noisy apartment? Your preamp humming? Plane flying overhead?
+We fix it. Denoise audio in seconds — runs on Modal L4 GPU and FREE.
+
+Built for ourselves. Open to everyone.
 
 [English](README.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md)
 
@@ -14,42 +17,53 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, creat
 
 ---
 
-## 🎯 Available Skills
+## 🎤 speech-denoise
 
-| Skill | Use Case |
-|-------|---------|
-| 🎤 speech-denoise | Vocal denoising<br>Speech enhancement |
-| 🎵 speech-isolate | Vocal isolation<br>remove background music |
+Your audio sounds perfect. Except for the background noise.
 
-## 🆓 FREE for 370+ hours per month
+Whether it's an air conditioner hum, street traffic, electrical interference, or that mysterious buzz your preamp won't stop making — run the skill, get clean audio back.
 
-**L4 GPU — real-world benchmarks:**
+Works with any format: `.m4a`, `.mp3`, `.mp4`, `.wav`, `.flac`, `.ogg`, `.aac`, `.mov`, `.avi`.
+
+Just tell your AI agent:
+```bash
+denoise these files: /path/to/file1, /path/to/file2...
+```
+
+No audio editing skills required.
+
+---
+
+## 📦 Installation
+
+```bash
+npx skills add speech2srt/skills
+```
+
+For OpenClaw, just tell your agent: `install speech-denoise skill` or `install speech-isolate skill`.
+
+---
+
+## One more thing...
+
+**🎵 speech-isolate** — Extract vocals from any audio track.
+
+Got a music track and want the isolated vocals? Or the instrumental? That's this skill.
+
+---
+
+## 🚀 Performance
+
+**L4 GPU on Modal — real-world benchmarks:**
 
 | Skill | Audio Duration | GPU Time | Wall Time | RTF |
 |-------|----------------|----------|-----------|-----|
 | speech-denoise | ~17 min (2 files) | 48s | 80s | 0.08x |
 | speech-isolate | ~6 min (1 file) | 30s | 36s | 0.09x |
 
-> Modal [L4 GPU](https://modal.com/pricing) runs $0.80/hr, but they give **$30 free credits monthly** — that's 37 hours of L4 GPU time. Even at a conservative RTF of 0.1x, <span style="color:red; font-weight:bold">you can process 370+ hours of audio for ZERO dollars</span>. More than enough for a solo creator or a small studio.
->
-> Many thanks to [Modal.com](https://modal.com) 💜
+Modal [L4 GPU](https://modal.com/pricing) runs $0.80/hr, but they give **$30 free credits monthly** — that's 37 hours of L4 GPU time. Even at a conservative RTF of 0.1x, <span style="color:red; font-weight:bold">you can process 370+ hours of audio for ZERO dollars</span>. More than enough for a solo creator or a small studio.
 
-## 📦 Installation
-
-```bash
-# For Claude Code, Antigravity, etc.
-npx skills add speech2srt/skills
-
-# For OpenClaw
-clawhub install speech-denoise
-clawhub install speech-isolate
-```
-
-> If you are using [OpenClaw](https://openclaw.ai), just ask your pal to `install speech-denoise skill` or `install speech-isolate skill`.
-
-## 🔧 Development
-
-See [DEVELOPMENT.md](DEVELOPMENT.md) for details.
+---
 
 ## 🙏 Acknowledgments
 
@@ -58,3 +72,9 @@ See [DEVELOPMENT.md](DEVELOPMENT.md) for details.
 - [Demucs](https://github.com/facebookresearch/demucs) — music source separation (htdemucs_ft model)
 - [skills.sh](https://skills.sh) — open agent skills ecosystem
 - [ClawHub](https://clawhub.ai) — OpenClaw skills distribution platform
+
+---
+
+## 🔧 Development
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for details.
