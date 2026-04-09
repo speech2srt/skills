@@ -14,8 +14,6 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, creat
 
 ---
 
-> Many thanks to **[Modal](https://modal.com)**, they provides $30 in free GPU compute monthly — enough to process hundreds of audio files with these skills at zero cost.
-
 ## Available Skills
 
 ### 1. speech-denoise
@@ -26,14 +24,18 @@ Studio-quality vocal denoising via ClearerVoice-Studio `MossFormer2`. Upload noi
 
 Vocal isolation / background music removal via Demucs `htdemucs_ft`. Extract clean vocals from audio with background music.
 
-## Performance
+## FREE for 370+ hours per month
 
-**L4 GPU on Modal — real-world benchmarks:**
+**L4 GPU - real-world benchmarks:**
 
 | Skill | Audio Duration | GPU Time | Wall Time | RTF |
 |-------|----------------|----------|-----------|-----|
 | speech-denoise | ~17 min (2 files) | 48s | 80s | 0.08x |
 | speech-isolate | ~6 min (1 file) | 30s | 36s | 0.09x |
+
+> Modal [L4 GPU](https://modal.com/pricing) runs $0.80/hr, but they give **$30 free credits monthly** — that's 37 hours of L4 GPU time. Even at a conservative RTF of 0.1x, you can process **370 hours of audio** for zero dollars. More than enough for a solo creator or a small studio.
+>
+> Many thanks to [Modal.com](https://modal.com)
 
 ## Installation
 
