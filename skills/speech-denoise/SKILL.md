@@ -1,6 +1,7 @@
 ---
 name: speech-denoise
-description: Speech enhancement / vocal denoising using ClearVoice MossFormer2 on Modal L4 GPU. Trigger when user says: "denoise", "去噪", "enhance audio", "remove noise", "clean up audio". Takes local audio/video files and returns noise-reduced audio.
+description: Speech enhancement / vocal denoising on Modal L4 GPU. Trigger when user says: "denoise", "remove noise", "clean up audio", "去噪", "降噪", "enhance audio". Takes local audio/video files and returns noise-reduced audio.
+version: 0.1.0
 ---
 
 # Vocal Denoise
