@@ -8,7 +8,7 @@ Speech/audio processing skills collection. Root-level code (`denoise.py`, `src/`
 
 | Skill | Description |
 |-------|-------------|
-| `speech-denoise` | Vocal denoising via ClearVoice MossFormer2 on Modal L4 GPU |
+| `speech-denoise` | Vocal denoising via ClearerVoice-Studio MossFormer2 on Modal L4 GPU |
 
 ## Canonical Source vs. Skill Bundles
 
@@ -28,7 +28,7 @@ Pre-commit hook (`git/hooks/pre-commit`) syncs `denoise.py` and `src/` into `ski
 /mnt/data/<slug>/upload/*.m4a
     └── [denoise - L4 GPU, ThreadPoolExecutor]
             ├── Thread-1: ffmpeg CPU conversion → /tmp/speech2srt-denoise/<slug>/*.flac
-            └── Thread-2: ClearVoice model loading (GPU)
+            └── Thread-2: ClearerVoice-Studio model loading (GPU)
             → GPU inference → /mnt/data/<slug>/output/*_enhanced.wav
 ```
 
@@ -72,5 +72,5 @@ modal run denoise.py --slug <slug>
 | Mount | Volume | Purpose |
 |-------|--------|---------|
 | `/mnt/data` | speech2srt-denoise-data | upload/, output/ files |
-| `/mnt/models` | speech2srt-denoise-models | ClearVoice checkpoints |
+| `/mnt/models` | speech2srt-denoise-models | ClearerVoice-Studio checkpoints |
 | `/tmp/speech2srt-denoise/<slug>` | (container SSD) | intermediate .flac files |

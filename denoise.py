@@ -120,7 +120,7 @@ def _run_ffmpeg(
 
 def _load_model():
     """
-    Load ClearVoice model. Runs in ThreadPool while ffmpeg is running.
+    Load ClearerVoice-Studio model. Runs in ThreadPool while ffmpeg is running.
     Returns (model, log_lines).
     """
     from clearvoice import ClearVoice
@@ -147,7 +147,7 @@ def _load_model():
     else:
         cache_mb = 0.0
 
-    log_lines.append(f"  ClearVoice MossFormer2_SE_48K  [cache: {cache_mb:.2f}MB]")
+    log_lines.append(f"  ClearerVoice-Studio MossFormer2_SE_48K  [cache: {cache_mb:.2f}MB]")
 
     model_t0 = time.monotonic()
     myClearVoice = ClearVoice(

@@ -6,7 +6,7 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, power
 
 ## Available Skills
 
-- **`speech-denoise`** — Vocal denoising via ClearVoice MossFormer2 on Modal L4 GPU. Takes audio/video files, returns noise-reduced audio.
+- **`speech-denoise`** — Vocal denoising via ClearerVoice-Studio MossFormer2 on Modal L4 GPU. Takes audio/video files, returns noise-reduced audio.
 
 ## Installation
 
@@ -52,7 +52,7 @@ See [clawhub.ai/speech2srt/speech-denoise](https://clawhub.ai/speech2srt/speech-
 
 ## Skill: speech-denoise
 
-**What it does:** Uploads local audio/video files to Modal volume, runs ClearVoice MossFormer2 GPU inference, downloads enhanced results.
+**What it does:** Uploads local audio/video files to Modal volume, runs ClearerVoice-Studio MossFormer2 GPU inference, downloads enhanced results.
 
 **Triggers:** "denoise", "去噪", "enhance audio", "remove noise", "clean up audio", "run the denoise pipeline"
 
@@ -73,6 +73,6 @@ skills/             ← skill bundles (distributed to agents)
 ## Acknowledgments
 
 - [Modal](https://modal.com) — GPU cloud infrastructure
-- [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — ClearVoice speech enhancement model
+- [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — ClearerVoice-Studio speech enhancement toolkit (MossFormer2 model)
 - [skills.sh](https://skills.sh) — open agent skills ecosystem
 - [ClawHub](https://clawhub.ai) — skill distribution platform

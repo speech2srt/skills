@@ -6,7 +6,7 @@ version: v1.0.1
 
 # Speech Denoise
 
-Single-stage speech enhancement pipeline — ffmpeg + ClearVoice MossFormer2 GPU inference in one Modal container.
+Single-stage speech enhancement pipeline — ffmpeg + ClearerVoice-Studio MossFormer2 GPU inference in one Modal container.
 
 **Pipeline code is bundled** at `./denoise.py` and `./src/`. After `npx skills add`, runs from any directory.
 
