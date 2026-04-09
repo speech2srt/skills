@@ -38,18 +38,8 @@ ENHANCED_SUFFIX = "_enhanced.wav"  # denoise pipeline output
 VOCALS_SUFFIX = "_vocals.wav"  # isolate pipeline output
 
 # ============================================================
-# Legacy aliases
+# Legacy aliases (TMP_PREFIX used by denoise.py)
 # ============================================================
-APP_NAME_DENOISE = APP_NAME
-APP_NAME_ISOLATE = APP_NAME
-VOLUME_DATA_NAME_DENOISE = VOLUME_DATA_NAME
-VOLUME_MODELS_NAME_DENOISE = VOLUME_MODELS_NAME
-VOLUME_DATA_NAME_ISOLATE = VOLUME_DATA_NAME
-VOLUME_MODELS_NAME_ISOLATE = VOLUME_MODELS_NAME
-MOUNT_DATA_DENOISE = MOUNT_DATA
-MOUNT_MODELS_DENOISE = MOUNT_MODELS
-MOUNT_DATA_ISOLATE = MOUNT_DATA
-MOUNT_MODELS_ISOLATE = MOUNT_MODELS
 TMP_PREFIX = TMP_PREFIX_DENOISE
 
 # ============================================================
