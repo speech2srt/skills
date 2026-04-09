@@ -1,17 +1,26 @@
-# AGENTS.md — Denoise Service
+# AGENTS.md — Speech Processing Skills
 
 ## Project Overview
 
-Single-stage Modal speech enhancement pipeline using ClearVoice MossFormer2_SE_48K on L4 GPU.
+Speech/audio processing skills collection. Root-level code (`denoise.py`, `src/`) is the canonical source; `skills/` contains distributable skill bundles synced via pre-commit hook.
 
-## Architecture
+## Skills
+
+| Skill | Description |
+|-------|-------------|
+| `speech-denoise` | Vocal denoising via ClearVoice MossFormer2 on Modal L4 GPU |
+
+## Canonical Source vs. Skill Bundles
 
 ```
-denoise.py          # Entry point + pipeline logic (local CLI)
-src/
-  config.py         # All constants
-  images.py         # Modal image & app instance
+denoise.py          # Canonical pipeline entry point
+src/                # Canonical config, images
+skills/             # Skill bundles (synced from root, DO NOT edit directly)
 ```
+
+Pre-commit hook (`git/hooks/pre-commit`) syncs `denoise.py` and `src/` into `skills/speech-denoise/` before every commit.
+
+## Pipeline Architecture
 
 ## Pipeline Flow
 

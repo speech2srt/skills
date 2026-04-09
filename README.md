@@ -1,41 +1,77 @@
-# Denoise Service
+# Speech Processing Skills
 
-Single-stage speech enhancement — extract audio from any format and enhance with ClearVoice MossFormer2 on L4 GPU.
+A skills collection for speech/audio processing tasks — bundled as a monorepo under `skills/` for easy distribution.
 
-## Quick Start
+## Available Skills
 
+| Skill | Description |
+|-------|-------------|
+| `speech-denoise` | Vocal denoising via ClearVoice MossFormer2 on Modal L4 GPU. Takes audio/video files, returns noise-reduced audio. |
+
+## Installation
+
+### Via `npx skills` (skills.sh ecosystem)
+
+Requires: [skills.sh compatible client](https://skills.sh) (Claude Code, OpenClaw, Pochi, etc.)
+
+**Install all skills:**
 ```bash
-# Create volumes (one-time)
-modal volume create speech2srt-denoise-data
-modal volume create speech2srt-denoise-models
-
-# Run locally
-    modal run denoise.py --slug <slug>
+npx skills add speech2srt/skills
 ```
 
-## How It Works
-
-1. Upload files to `upload/` in the volume
-2. Run the pipeline — audio is extracted and enhanced in a single GPU stage
-3. Download results from `output/`
-
-## File Transfer
-
+**Install specific skill:**
 ```bash
-# Upload files to upload/
-modal volume put speech2srt-denoise-data ./your-audio.mp4 /<slug>/upload/
-
-# Download results from output/
-modal volume get speech2srt-denoise-data /<slug>/output/ ./path/to/results_dir
+npx skills add speech2srt/skills@speech-denoise
+# or
+npx skills add speech2srt/skills --skill speech-denoise
 ```
 
-## Deploy
+**List available skills without installing:**
+```bash
+npx skills add speech2srt/skills --list
+```
+
+**Local development:**
+```bash
+npx skills add ./skills --list
+npx skills add ./skills --skill speech-denoise
+```
+
+### Via ClawHub
+
+Requires: [ClawHub CLI](https://clawhub.ai)
 
 ```bash
-    modal deploy denoise.py
+# Publish (maintainer)
+clawhub publish speech2srt/skills/speech-denoise
+
+# Install
+clawhub install speech2srt/speech-denoise
+```
+
+## Skill: speech-denoise
+
+**What it does:** Uploads local audio/video files to Modal volume, runs ClearVoice MossFormer2 GPU inference, downloads enhanced results.
+
+**Triggers:** "denoise", "去噪", "enhance audio", "remove noise", "clean up audio", "run the denoise pipeline"
+
+**Pipeline:** Single-stage — ffmpeg audio extraction + MossFormer2 speech enhancement in one Modal container on L4 GPU.
+
+See `skills/speech-denoise/SKILL.md` for full workflow.
+
+## Development
+
+Pipeline code lives at the repo root and is synced to `skills/speech-denoise/` via pre-commit hook:
+
+```
+denoise.py          ← pipeline entry point
+src/                ← config, images (synced to skill)
+skills/             ← skill bundles (distributed to agents)
 ```
 
 ## Acknowledgments
 
 - [ClearVoice](https://huggingface.co/spaces/alibabasglab/ClearVoice) — MossFormer2 speech enhancement
 - [Modal](https://modal.com) — GPU cloud infrastructure
+- [skills.sh](https://skills.sh) — open agent skills ecosystem
+- [ClawHub](https://clawhub.ai) — skill distribution platform
