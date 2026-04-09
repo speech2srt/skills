@@ -265,6 +265,7 @@ def isolate(slug: str) -> list[dict]:
             vocals_np,
             samplerate=separator.samplerate,
             subtype=config.AUDIO_SUBTYPE,
+            format=config.AUDIO_FORMAT,
         )
         buffer.seek(0)
         output_path.write_bytes(buffer.getvalue())
