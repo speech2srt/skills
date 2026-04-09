@@ -22,16 +22,6 @@ npx skills add speech2srt/skills@speech-denoise
 clawhub install speech-denoise
 ```
 
-## Skill: speech-denoise
-
-**What it does:** Uploads local audio/video files to Modal volume, runs ClearerVoice-Studio MossFormer2 GPU inference, downloads enhanced results.
-
-**Triggers:** "denoise", "去噪", "enhance audio", "remove noise", "clean up audio", "run the denoise pipeline"
-
-**Pipeline:** Single-stage — ffmpeg audio extraction + MossFormer2 speech enhancement in one Modal container on L4 GPU.
-
-See `skills/speech-denoise/SKILL.md` for full workflow.
-
 ## Development
 
 Pipeline code lives at the repo root and is synced to `skills/speech-denoise/` via pre-commit hook:
