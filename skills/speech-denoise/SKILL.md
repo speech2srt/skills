@@ -1,7 +1,7 @@
 ---
 name: speech-denoise
 description: "Speech enhancement / vocal denoising on Modal L4 GPU. Trigger when user says: denoise, remove noise, clean up audio, 去噪, 降噪, enhance audio. Takes local audio/video files and returns noise-reduced audio."
-version: v1.0.1
+version: v1.1.0
 ---
 
 # Speech Denoise
