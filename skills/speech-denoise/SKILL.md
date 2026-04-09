@@ -24,12 +24,12 @@ Single-stage speech enhancement pipeline — ffmpeg + ClearerVoice-Studio MossFo
 
 Ensure volume exists (idempotent):
 ```bash
-modal volume create speech2srt-denoise-data 2>/dev/null || true
+modal volume create speech2srt-data 2>/dev/null || true
 ```
 
 Upload each file:
 ```bash
-modal volume put speech2srt-denoise-data <local_file> <slug>/upload/
+modal volume put speech2srt-data <local_file> <slug>/upload/
 ```
 
 Modal `put` auto-creates remote directories — no need to create `<slug>/upload/` manually.
@@ -49,7 +49,7 @@ Stream output in real time.
 For each original file, output is `<original_directory>/<stem>_enhanced.wav`:
 
 ```bash
-modal volume get speech2srt-denoise-data <slug>/output/<file>_enhanced.wav <original_directory>/
+modal volume get speech2srt-data <slug>/output/<file>_enhanced.wav <original_directory>/
 ```
 
 Preserve original directory tree — do not flatten into `./results/`.
@@ -57,7 +57,7 @@ Preserve original directory tree — do not flatten into `./results/`.
 ### 5. Clean up
 
 ```bash
-modal volume rm speech2srt-denoise-data <slug> --recursive
+modal volume rm speech2srt-data <slug> --recursive
 ```
 
 ### 6. Report
