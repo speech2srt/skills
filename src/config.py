@@ -37,7 +37,6 @@ APP_NAME = "speech2srt.com"
 ENHANCED_SUFFIX = "_enhanced.wav"  # denoise pipeline output
 VOCALS_SUFFIX = "_vocals.wav"  # isolate pipeline output
 
-
 # ============================================================
 # Audio Processing Config
 # ============================================================
