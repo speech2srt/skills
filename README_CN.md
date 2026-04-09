@@ -11,7 +11,7 @@
 
 Built for ourselves. Open to everyone.
 
-🇺🇸 [English](README.md) | 🇨🇳 [简体中文](README_CN.md) | 🇹🇼 [繁體中文](README_TW.md)
+[🇺🇸 English](README.md) | [🇨🇳 简体中文](README_CN.md) | [🇹🇼 繁體中文](README_TW.md)
 
 </div>
 

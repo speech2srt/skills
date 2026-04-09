@@ -11,7 +11,7 @@ This skill fixes it. Denoise audio in seconds - runs on Modal L4 GPU and FREE.
 
 Built for ourselves. Open to everyone.
 
-🇺🇸 [English](README.md) | 🇨🇳 [简体中文](README_CN.md) | 🇹🇼 [繁體中文](README_TW.md)
+[🇺🇸 English](README.md) | [🇨🇳 简体中文](README_CN.md) | [🇹🇼 繁體中文](README_TW.md)
 
 </div>
 
