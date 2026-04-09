@@ -6,9 +6,7 @@ Speech/audio processing skills — runs on **[Modal](https://modal.com)**, power
 
 ## Available Skills
 
-| Skill | Description |
-|-------|-------------|
-| `speech-denoise` | Vocal denoising via ClearVoice MossFormer2 on Modal L4 GPU. Takes audio/video files, returns noise-reduced audio. |
+- **`speech-denoise`** — Vocal denoising via ClearVoice MossFormer2 on Modal L4 GPU. Takes audio/video files, returns noise-reduced audio.
 
 ## Installation
 
