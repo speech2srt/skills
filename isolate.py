@@ -130,7 +130,7 @@ def _load_model() -> tuple:
     # Demucs stores models in ~/.cache/torch/ by default.
     # Symlink ~/.cache to our models volume so downloads persist.
     cache_dir = Path.home() / ".cache"
-    models_dir = Path(config.MOUNT_MODELS_ISOLATE)
+    models_dir = Path(config.MOUNT_MODELS)
 
     if not cache_dir.is_symlink():
         if cache_dir.exists():
@@ -160,8 +160,8 @@ def _load_model() -> tuple:
     image=images.image_isolate,
     gpu=config.GPU_TYPE,
     volumes={
-        config.MOUNT_DATA_ISOLATE: images.volume_data_isolate,
-        config.MOUNT_MODELS_ISOLATE: images.volume_models_isolate,
+        config.MOUNT_DATA: images.volume_data,
+        config.MOUNT_MODELS: images.volume_models,
     },
     timeout=config.TIMEOUT_DENOISE,
     retries=0,
@@ -175,9 +175,9 @@ def isolate(slug: str) -> list[dict]:
     """
     t0 = time.monotonic()
 
-    upload_dir = Path(config.MOUNT_DATA_ISOLATE) / slug / config.DIR_UPLOAD
+    upload_dir = Path(config.MOUNT_DATA) / slug / config.DIR_UPLOAD
     intermediate_dir = Path(config.TMP_PREFIX_ISOLATE) / slug
-    output_dir = Path(config.MOUNT_DATA_ISOLATE) / slug / config.DIR_OUTPUT
+    output_dir = Path(config.MOUNT_DATA) / slug / config.DIR_OUTPUT
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if not upload_dir.exists():
@@ -305,7 +305,7 @@ def isolate(slug: str) -> list[dict]:
     )
     print(bar)
 
-    images.volume_data_isolate.commit()
+    images.volume_data.commit()
 
     return results
 

@@ -10,20 +10,11 @@ import src.config as config
 
 
 # ============================================================
-# Volumes
+# Volumes (shared by all pipelines — slug provides isolation)
 # ============================================================
-# Denoise volumes
 volume_data = modal.Volume.from_name(config.VOLUME_DATA_NAME, create_if_missing=True)
 volume_models = modal.Volume.from_name(
     config.VOLUME_MODELS_NAME, create_if_missing=True
-)
-
-# Isolate volumes
-volume_data_isolate = modal.Volume.from_name(
-    config.VOLUME_DATA_NAME_ISOLATE, create_if_missing=True
-)
-volume_models_isolate = modal.Volume.from_name(
-    config.VOLUME_MODELS_NAME_ISOLATE, create_if_missing=True
 )
 
 
