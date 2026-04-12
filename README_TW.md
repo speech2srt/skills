@@ -46,6 +46,8 @@ npx skills add speech2srt/skills
 
 ## ✨ One more thing...
 
+### 🎵 speech-isolate
+
 **🎵 speech-isolate** — 從任何音軌中人聲提取。
 
 有一首音樂想提取人聲？或者反過來要伴奏？這就是這個 Skill。
