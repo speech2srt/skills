@@ -48,11 +48,11 @@ For OpenClaw, just tell your agent: `install speech-denoise skill` or `install s
 
 ### 🎵 speech-isolate
 
-**🎵 speech-isolate** - Extract vocals from any audio track.
+**🎵 speech-isolate** - Pull the vocals out of any song or recording.
 
-Got a music track and want the isolated vocals? Or the instrumental? That's this skill.
+Background music drowning out your recording? This pulls the voice out and cleans it up in one pass. The result is a pure vocal track — no music, no noise, ready for transcription or any other use.
 
-> **Tip:** Use this before ASR. Background music confuses speech recognition models - remove it first, get cleaner transcripts.
+> **Tip:** Background music confuses speech recognition — remove it first, get cleaner transcripts.
 
 ---
 
@@ -63,7 +63,9 @@ Got a music track and want the isolated vocals? Or the instrumental? That's this
 | Skill | Audio Duration | GPU Time | Wall Time | RTF |
 |-------|----------------|----------|-----------|-----|
 | speech-denoise | ~17 min (2 files) | 48s | 80s | 0.08x |
-| speech-isolate | ~6 min (1 file) | 30s | 36s | 0.09x |
+| speech-isolate | ~5.8 min (1 file) | 90s | 135s | 0.39x |
+
+> **Note:** `speech-isolate` runs a two-stage pipeline: Demucs (vocal separation) + ClearerVoice MossFormer2 (speech enhancement). GPU time is the combined inference time of both stages. The higher RTF reflects the sequential nature of running two models per file.
 
 Modal [L4 GPU](https://modal.com/pricing) runs $0.80/hr, but they give **$30 free credits monthly** - that's 37 hours of L4 GPU time. Even at a conservative RTF of 0.1x, **you can process 370+ hours of audio for ZERO dollars**. More than enough for a solo creator or a small studio.
 

@@ -25,6 +25,7 @@ DIR_OUTPUT = "output"  # under /mnt/data/<slug>/
 # Separate prefixes so denoise/isolate don't conflict during parallel runs
 TMP_PREFIX_DENOISE = "/tmp/speech2srt-denoise"
 TMP_PREFIX_ISOLATE = "/tmp/speech2srt-isolate"
+TMP_PREFIX_CHAINED = "/tmp/speech2srt-isolate-denoise"  # chained pipeline
 
 # ============================================================
 # App Name
@@ -34,8 +35,7 @@ APP_NAME = "speech2srt.com"
 # ============================================================
 # Output Suffixes
 # ============================================================
-ENHANCED_SUFFIX = "_enhanced.wav"  # denoise pipeline output
-VOCALS_SUFFIX = "_vocals.wav"  # isolate pipeline output
+ISOLATED_SUFFIX = "_isolated.wav"  # isolate+denoise chained pipeline output
 
 # ============================================================
 # Audio Processing Config
@@ -55,5 +55,6 @@ FLAC_EXTENSION = ".flac"
 # Timeout Config (seconds)
 # ============================================================
 TIMEOUT_DENOISE = 1800  # Single stage (GPU)
+TIMEOUT_CHAINED = 3600  # Chained isolate + denoise (GPU, 60min)
 FFMPEG_TIMEOUT = 300  # per-file conversion
 FFPROBE_TIMEOUT = 30  # per-file probe

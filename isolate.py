@@ -1,8 +1,11 @@
 """
-Modal service: Vocal isolation (source separation) pipeline.
+Modal service: Two-stage vocal isolation + speech enhancement pipeline.
 
-ffmpeg conversion (CPU) and Demucs model loading (GPU) run in parallel via ThreadPoolExecutor.
-GPU inference then processes each .flac file sequentially.
+Stage 1: ffmpeg conversion (CPU) + Demucs model loading (GPU) + ClearerVoice
+model loading (GPU) run in parallel via ThreadPoolExecutor(max_workers=3).
+
+Stage 2: GPU inference processes each .flac file through Demucs (vocal separation)
+then ClearerVoice MossFormer2 (speech enhancement) sequentially.
 
 Usage:
     modal run isolate.py --slug <slug>
@@ -26,7 +29,7 @@ def _run_ffmpeg(
 ) -> tuple[list[dict], list[str]]:
     """
     Convert all audio/video files in upload/ to 48kHz .flac.
-    Output goes to /tmp/speech2srt-isolate/<slug>/.
+    Output goes to /tmp/speech2srt-isolate-denoise/<slug>/.
     Runs in ThreadPool. Returns (results, log_lines).
     """
     intermediate_dir.mkdir(parents=True, exist_ok=True)
@@ -156,27 +159,72 @@ def _load_model() -> tuple:
     return separator, log_lines
 
 
+def _load_clearvoice_model():
+    """
+    Load ClearerVoice-Studio MossFormer2 model. Runs in ThreadPool while
+    ffmpeg is running and Demucs is loading.
+    Returns (myClearVoice, log_lines).
+    """
+    from clearvoice import ClearVoice
+
+    log_lines: list[str] = []
+    MODELS_DIR = Path(config.MOUNT_MODELS)
+    CHECKPOINTS_DIR = MODELS_DIR / "checkpoints"
+    workdir_checkpoints = Path("/root/checkpoints")
+
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    if not workdir_checkpoints.exists() or not workdir_checkpoints.is_symlink():
+        workdir_checkpoints.parent.mkdir(parents=True, exist_ok=True)
+        if workdir_checkpoints.exists():
+            workdir_checkpoints.rmdir()
+        workdir_checkpoints.symlink_to(CHECKPOINTS_DIR)
+
+    CHECKPOINTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    if CHECKPOINTS_DIR.exists():
+        total_size = sum(
+            f.stat().st_size for f in CHECKPOINTS_DIR.rglob("*") if f.is_file()
+        )
+        cache_mb = total_size / (1024 * 1024)
+    else:
+        cache_mb = 0.0
+
+    log_lines.append(
+        f"  ClearerVoice-Studio MossFormer2_SE_48K  [cache: {cache_mb:.2f}MB]"
+    )
+
+    model_t0 = time.monotonic()
+    myClearVoice = ClearVoice(
+        task="speech_enhancement", model_names=["MossFormer2_SE_48K"]
+    )
+    model_elapsed = time.monotonic() - model_t0
+    log_lines.append(f"  model init: {model_elapsed:.1f}s")
+
+    return myClearVoice, log_lines
+
+
 @images.app_isolate.function(
-    image=images.image_isolate,
+    image=images.image_isolate_denoise,
     gpu=config.GPU_TYPE,
     volumes={
         config.MOUNT_DATA: images.volume_data,
         config.MOUNT_MODELS: images.volume_models,
     },
-    timeout=config.TIMEOUT_DENOISE,
+    timeout=config.TIMEOUT_CHAINED,
     retries=0,
 )
 def isolate(slug: str) -> list[dict]:
     """
-    Single-stage vocal isolation on L4 GPU.
+    Two-stage pipeline: vocal isolation (Demucs) + speech enhancement (ClearerVoice).
 
-    ffmpeg conversion (CPU) and model loading (GPU) run in parallel via ThreadPoolExecutor.
-    Then GPU inference processes each .flac file sequentially.
+    ffmpeg conversion (CPU), Demucs model loading (GPU), and ClearerVoice model
+    loading (GPU) all run in parallel via ThreadPoolExecutor(max_workers=3).
+    Then GPU inference processes each file through both stages sequentially.
     """
     t0 = time.monotonic()
 
     upload_dir = Path(config.MOUNT_DATA) / slug / config.DIR_UPLOAD
-    intermediate_dir = Path(config.TMP_PREFIX_ISOLATE) / slug
+    intermediate_dir = Path(config.TMP_PREFIX_CHAINED) / slug
     output_dir = Path(config.MOUNT_DATA) / slug / config.DIR_OUTPUT
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -189,19 +237,23 @@ def isolate(slug: str) -> list[dict]:
     print("[model]  loading...")
 
     # -----------------------------------------------------------
-    # Parallel: ffmpeg (CPU) + model load (GPU)
+    # Parallel: ffmpeg (CPU) + Demucs model (GPU) + ClearerVoice model (GPU)
     # -----------------------------------------------------------
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         ffmpeg_future = executor.submit(_run_ffmpeg, upload_dir, intermediate_dir)
-        model_future = executor.submit(_load_model)
+        demucs_future = executor.submit(_load_model)
+        cv_future = executor.submit(_load_clearvoice_model)
 
         ffmpeg_results, ffmpeg_lines = ffmpeg_future.result()
-        separator, model_lines = model_future.result()
+        separator, demucs_lines = demucs_future.result()
+        myClearVoice, cv_lines = cv_future.result()
 
     # Print buffered parallel-phase logs
     for line in ffmpeg_lines:
         print(line)
-    for line in model_lines:
+    for line in demucs_lines:
+        print(line)
+    for line in cv_lines:
         print(line)
 
     if not ffmpeg_results:
@@ -222,7 +274,7 @@ def isolate(slug: str) -> list[dict]:
     results = []
 
     for flac_file in flac_files:
-        output_path = output_dir / f"{flac_file.stem}{config.VOCALS_SUFFIX}"
+        output_path = output_dir / f"{flac_file.stem}{config.ISOLATED_SUFFIX}"
 
         # Get duration from the intermediate .flac (48kHz)
         audio_info = sf.info(str(flac_file))
@@ -231,8 +283,12 @@ def isolate(slug: str) -> list[dict]:
 
         file_size = flac_file.stat().st_size / (1024 * 1024)
 
-        proc_t0 = time.monotonic()
         sys.stdout.flush()
+
+        # -----------------------------------------------------------
+        # Stage 1: Demucs — vocal separation
+        # -----------------------------------------------------------
+        demucs_t0 = time.monotonic()
 
         # Load audio — Demucs will resample to separator's native samplerate
         mix = load_track(
@@ -254,10 +310,9 @@ def isolate(slug: str) -> list[dict]:
         # Extract vocals (vocals is last source in htdemucs_ft: drums/bass/other/vocals)
         vocals_idx = separator.sources.index("vocals")
         vocals = estimates[0, vocals_idx]  # (channels, time)
-        proc_elapsed = time.monotonic() - proc_t0
-        rtf = proc_elapsed / audio_duration if audio_duration > 0 else 0
 
-        # Save vocals to Volume
+        # Save vocals to intermediate temp path (ClearerVoice requires file input)
+        vocals_temp_path = intermediate_dir / f"{flac_file.stem}_vocals.wav"
         vocals_np = vocals.cpu().numpy().T  # (channels, time) → (time, channels)
         buffer = io.BytesIO()
         sf.write(
@@ -268,14 +323,52 @@ def isolate(slug: str) -> list[dict]:
             format=config.AUDIO_FORMAT,
         )
         buffer.seek(0)
-        output_path.write_bytes(buffer.getvalue())
+        vocals_temp_path.write_bytes(buffer.getvalue())
+
+        demucs_elapsed = time.monotonic() - demucs_t0
+        print(f"  [demucs] {flac_file.stem}: {demucs_elapsed:.1f}s")
+
+        # -----------------------------------------------------------
+        # Stage 2: ClearerVoice — speech enhancement
+        # -----------------------------------------------------------
+        cv_t0 = time.monotonic()
+
+        # ClearerVoice writes enhanced audio to the output path directly
+        # (online_write returns numpy array when False)
+        enhanced_wav = myClearVoice(
+            input_path=str(vocals_temp_path),
+            online_write=False,
+        )
+
+        # Convert (channels, time) → (time, channels) if stereo
+        if enhanced_wav.ndim == config.AUDIO_STEREO_NDIM:
+            enhanced_wav = enhanced_wav.T
+
+        # Write enhanced audio to Volume
+        final_buffer = io.BytesIO()
+        sf.write(
+            final_buffer,
+            enhanced_wav,
+            samplerate=config.AUDIO_SAMPLE_RATE,
+            subtype=config.AUDIO_SUBTYPE,
+            format=config.AUDIO_FORMAT,
+        )
+        final_buffer.seek(0)
+        output_path.write_bytes(final_buffer.getvalue())
+
+        # Remove temp vocals file from container SSD
+        vocals_temp_path.unlink(missing_ok=True)
+
+        cv_elapsed = time.monotonic() - cv_t0
+        total_proc_elapsed = demucs_elapsed + cv_elapsed
+        rtf = total_proc_elapsed / audio_duration if audio_duration > 0 else 0
 
         output_size = output_path.stat().st_size / (1024 * 1024)
 
         print(
             f"  {output_path.name}"
             f"  {file_size:.2f}MB → {output_size:.2f}MB"
-            f"  [{proc_elapsed:.1f}s, RTF={rtf:.2f}x]"
+            f"  [D={demucs_elapsed:.1f}s + CV={cv_elapsed:.1f}s, RTF={rtf:.2f}x]"
             f"  dur={audio_duration:.0f}s"
         )
 
@@ -287,11 +380,17 @@ def isolate(slug: str) -> list[dict]:
                 "output_size_mb": round(output_size, 2),
                 "duration_sec": round(audio_duration, 2),
                 "rtf": round(rtf, 3),
+                "demucs_rtf": round(demucs_elapsed / audio_duration, 3)
+                if audio_duration > 0
+                else 0,
+                "cv_rtf": round(cv_elapsed / audio_duration, 3)
+                if audio_duration > 0
+                else 0,
             }
         )
 
     # Clean up intermediate .flac files from container SSD
-    shutil.rmtree(Path(config.TMP_PREFIX_ISOLATE) / slug, ignore_errors=True)
+    shutil.rmtree(Path(config.TMP_PREFIX_CHAINED) / slug, ignore_errors=True)
 
     elapsed = time.monotonic() - t0
     total_rtf = elapsed / total_audio_sec if total_audio_sec > 0 else 0
@@ -317,7 +416,9 @@ def main(slug: str) -> None:
     results = isolate.remote(slug)
 
     if results:
-        print(f"\nPipeline complete. Isolated vocals from {len(results)} files.")
+        print(
+            f"\nPipeline complete. Isolated and enhanced vocals from {len(results)} files."
+        )
     else:
         print("\nPipeline completed but no files were processed.")
 

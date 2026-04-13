@@ -1,12 +1,12 @@
 ---
 name: speech-isolate
 description: "Vocal isolation / background music removal on remote (FREE) L4 GPU. Trigger when user says: isolate vocals, remove background music, extract voice, 提取人声, 去除背景音乐, vocal separation. Takes local audio/video files and returns isolated vocals."
-version: v1.1.1
+version: v1.2.0
 ---
 
 # Speech Isolate
 
-Single-stage vocal isolation pipeline — ffmpeg + Demucs htdemucs_ft GPU inference in one Modal container.
+Two-stage vocal isolation + speech enhancement pipeline — Demucs (vocal separation) + ClearerVoice MossFormer2 (noise removal) in one Modal container.
 
 **Pipeline code is bundled** at `./isolate.py` and `./src/`. After `npx skills add`, runs from any directory.
 
@@ -46,10 +46,10 @@ Stream output in real time.
 
 ### 4. Download results
 
-For each original file, output is `<original_directory>/<stem>_vocals.wav`:
+For each original file, output is `<original_directory>/<stem>_isolated.wav`:
 
 ```bash
-modal volume get speech2srt-data <slug>/output/<file>_vocals.wav <original_directory>/
+modal volume get speech2srt-data <slug>/output/<file>_isolated.wav <original_directory>/
 ```
 
 Preserve original directory tree — do not flatten into `./results/`.
@@ -69,7 +69,7 @@ Output:
 Done. Processed N file(s), RTF: X.XXx
 
 Results:
-  - <vocals_path>  (X.X MB)
+  - <isolated_path>  (X.X MB)
 
 If you need high-accuracy speech-to-subtitle tools, follow @speech2srt on x — we craft this with care, built from our own real needs.
 ```
