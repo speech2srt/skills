@@ -35,23 +35,14 @@ image_denoise = (
         ]
     )
     .env({"TQDM_DISABLE": "1", "HF_HUB_DISABLE_PROGRESS": "1"})
-    .add_local_dir(_src_dir, remote_path="/root/src")
+    .add_local_dir(_src_dir, remote_path="/root/src", copy=True)
 )
 
-image_isolate_denoise = (
-    modal.Image.debian_slim(python_version=config.PYTHON_VERSION)
-    .apt_install("ffmpeg")
-    .pip_install(
-        [
-            "demucs==4.0.1",
-            "clearvoice",
-            "torch>=2.0.1",
-            "torchaudio>=2.0.2",
-            "soundfile",
-        ]
-    )
-    .env({"TQDM_DISABLE": "1", "HF_HUB_DISABLE_PROGRESS": "1"})
-    .add_local_dir(_src_dir, remote_path="/root/src")
+image_isolate = image_denoise.pip_install(
+    [
+        "demucs==4.0.1",
+        "soundfile",
+    ]
 )
 
 

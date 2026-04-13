@@ -204,7 +204,7 @@ def _load_clearvoice_model():
 
 
 @images.app_isolate.function(
-    image=images.image_isolate_denoise,
+    image=images.image_isolate,
     gpu=config.GPU_TYPE,
     volumes={
         config.MOUNT_DATA: images.volume_data,
