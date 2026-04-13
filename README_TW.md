@@ -67,7 +67,7 @@ npx skills add speech2srt/skills
 
 > **Note:** `speech-isolate` 採用兩階段 pipeline：Demucs（人聲分離）+ ClearerVoice MossFormer2（降噪）。GPU 時間為兩階段合計。更高的 RTF 反映了每個檔案需順序運行兩個模型。
 
-Modal [L4 GPU](https://modal.com/pricing) 每小時 $0.80，但他們每月贈送 **$30 額度**——相當於 37 小時 L4 GPU 時間。按保守 RTF 0.1x 算，**你可以處理超過 370 小時的音頻，分文不花**。個人創作者或小型工作室，綽綽有餘。
+Modal [L4 GPU](https://modal.com/pricing) 每小時 $0.80，但他們每月贈送 **$30 額度**——相當於 37 小時 L4 GPU 時間。按 RTF 0.4x 算，**你可以處理超過 93 小時的音頻，分文不花**。個人創作者或小型工作室，綽綽有餘。
 
 ---
 
