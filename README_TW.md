@@ -48,9 +48,9 @@ npx skills add speech2srt/skills
 
 ### 🎵 speech-isolate
 
-**🎵 speech-isolate** — 從任何音軌中人聲提取。
+**🎵 speech-isolate** — 提取錄音中的人聲並降噪。
 
-有一首音樂想提取人聲？或者反過來要伴奏？這就是這個 Skill。
+錄音裡有背景音樂？這個人聲提取工具可以幫你把聲音分離出來並完成降噪處理。出來的就是乾淨的人声音軌——沒有音樂、沒有噪音，可以直接用於轉寫或其他用途。
 
 > **Tip:** 做 ASR 之前先用這個。背景音樂會干擾語音識別模型——先去音樂，再做識別，字幕更乾淨。
 
@@ -63,7 +63,9 @@ npx skills add speech2srt/skills
 | Skill | 音頻時長 | GPU 時間 | 總耗時 | RTF |
 |-------|----------|---------|--------|-----|
 | speech-denoise | ~17 分鐘（2 個檔案） | 48s | 80s | 0.08x |
-| speech-isolate | ~6 分鐘（1 個檔案） | 30s | 36s | 0.09x |
+| speech-isolate | ~5.8 分鐘（1 個檔案） | 90s | 135s | 0.39x |
+
+> **Note:** `speech-isolate` 採用兩階段 pipeline：Demucs（人聲分離）+ ClearerVoice MossFormer2（降噪）。GPU 時間為兩階段合計。更高的 RTF 反映了每個檔案需順序運行兩個模型。
 
 Modal [L4 GPU](https://modal.com/pricing) 每小時 $0.80，但他們每月贈送 **$30 額度**——相當於 37 小時 L4 GPU 時間。按保守 RTF 0.1x 算，**你可以處理超過 370 小時的音頻，分文不花**。個人創作者或小型工作室，綽綽有餘。
 
