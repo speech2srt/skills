@@ -38,7 +38,7 @@ denoise these files: /path/to/file1, /path/to/file2...
 
 ## 🎙️ speech-transcribe
 
-3x Faster than Whisper，语音转文字，带句级时间戳。
+比 Whisper 快 3 倍，语音转文字，带句级时间戳。
 
 输出两种格式：纯文本（`.txt`）用于文档，字幕文件（`.srt`）可直接导入任何视频编辑器。
 
