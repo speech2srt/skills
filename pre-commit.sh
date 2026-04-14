@@ -1,18 +1,18 @@
 #!/bin/bash
 # Pre-commit hook: sync skill bundles from project root
-# Keeps skills/speech-denoise/ and skills/speech-isolate/ in sync with project root
+# Keeps skills/speech-denoise/, skills/speech-isolate/, and skills/speech-transcribe/ in sync
 
 set -e
 
 # ============================================================
 # Skill bundles to sync
 # ============================================================
-SKILLS=("skills/speech-denoise" "skills/speech-isolate")
+SKILLS=("skills/speech-denoise" "skills/speech-isolate" "skills/speech-transcribe")
 
 # ============================================================
 # Source files to sync
 # ============================================================
-SRC_FILES=("denoise.py" "isolate.py")
+SRC_FILES=("denoise.py" "isolate.py" "transcribe.py")
 SRC_DIR="src"
 
 # ============================================================
@@ -40,6 +40,9 @@ for skill_dir in "${SKILLS[@]}"; do
             ;;
         skills/speech-isolate)
             entry="isolate.py"
+            ;;
+        skills/speech-transcribe)
+            entry="transcribe.py"
             ;;
         *)
             continue

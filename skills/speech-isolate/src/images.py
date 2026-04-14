@@ -45,9 +45,24 @@ image_isolate = image_denoise.pip_install(
     ]
 )
 
+# ============================================================
+# Whisper Image
+# ============================================================
+image_whisper = (
+    modal.Image.from_registry(
+        "nvidia/cuda:12.8.1-cudnn-runtime-ubuntu22.04", add_python="3.12"
+    )
+    .entrypoint([])
+    .apt_install("ffmpeg")
+    .pip_install("faster-whisper", "stable-ts")
+    .env({"TQDM_DISABLE": "1", "HF_HUB_DISABLE_PROGRESS": "1"})
+    .add_local_dir(_src_dir, remote_path="/root/src")
+)
+
 
 # ============================================================
 # App Instances
 # ============================================================
 app = modal.App(config.APP_NAME)
 app_isolate = modal.App(config.APP_NAME)
+app_whisper = modal.App(config.APP_NAME)
