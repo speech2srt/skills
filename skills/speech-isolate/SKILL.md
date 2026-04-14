@@ -1,7 +1,7 @@
 ---
 name: speech-isolate
 description: "Vocal isolation / background music removal on remote (FREE) L4 GPU. Trigger when user says: isolate vocals, remove background music, extract voice, 提取人声, 去除背景音乐, vocal separation. Takes local audio/video files and returns isolated vocals."
-version: v1.2.0
+version: v1.3.0
 ---
 
 # Speech Isolate
