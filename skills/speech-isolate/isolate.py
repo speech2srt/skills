@@ -170,7 +170,7 @@ def _load_clearvoice_model():
     log_lines: list[str] = []
     MODELS_DIR = Path(config.MOUNT_MODELS)
     CHECKPOINTS_DIR = MODELS_DIR / "checkpoints"
-    workdir_checkpoints = Path("/root/checkpoints")
+    workdir_checkpoints = Path.home() / "checkpoints"
 
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     if not workdir_checkpoints.exists() or not workdir_checkpoints.is_symlink():
