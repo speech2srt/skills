@@ -6,9 +6,6 @@
 
 **你的錄音，從此沒有噪音。**
 
-住在嘈雜的公寓？功放有嗡嗡聲？頭頂有飛機飛過？
-這個 Skill 來解決。幾秒鐘完成去噪——運行在 Modal L4 GPU 上，而且免費。
-
 Built for ourselves. Open to everyone.
 
 [🇺🇸 English](README.md) | [🇨🇳 简体中文](README_CN.md) | [🇹🇼 繁體中文](README_TW.md)
@@ -21,16 +18,29 @@ Built for ourselves. Open to everyone.
 
 你的錄音聽起來不錯，除了背景噪音。
 
-不管是冷氣的嗡嗡聲、街上的車流、電流干擾，還是你的功放怎麼也去不掉的莫名雜音——運行這個 Skill，還你乾淨的音頻。
+冷氣嗡嗡聲、街上車流、電流干擾、功放的莫名雜音——執行這個 Skill，還你乾淨的音訊。
 
-支援所有常見格式：`.m4a`、`.mp3`、`.mp4`、`.wav`、`.flac`、`.ogg`、`.aac`、`.mov`、`.avi`。
+支援格式：`.m4a` `.mp3` `.mp4` `.wav` `.flac` `.ogg` `.aac` `.mov` `.avi`
 
-告訴你的 AI agent：
 ```bash
 denoise these files: /path/to/file1, /path/to/file2...
 ```
 
-不需要任何音頻編輯技能。
+---
+
+## 🎵 speech-isolate
+
+提取錄音中的人聲。
+
+錄音裡有背景音樂？這個人聲提取工具給你一條乾淨的人声音軌——沒有音樂、沒有噪音，可以直接用於轉寫。
+
+---
+
+## 🎙️ speech-transcribe
+
+3x Faster than Whisper，語音轉文字，帶句級時間戳。
+
+輸出兩種格式：純文字（`.txt`）用於文件，字幕檔（`.srt`）可直接匯入任何影片編輯器。
 
 ---
 
@@ -40,19 +50,7 @@ denoise these files: /path/to/file1, /path/to/file2...
 npx skills add speech2srt/skills
 ```
 
-使用 OpenClaw？直接告訴你的 agent：`install speech-denoise skill` 或 `install speech-isolate skill`。
-
----
-
-## ✨ One more thing...
-
-### 🎵 speech-isolate
-
-**🎵 speech-isolate** — 提取錄音中的人聲並降噪。
-
-錄音裡有背景音樂？這個人聲提取工具可以幫你把聲音分離出來並完成降噪處理。出來的就是乾淨的人声音軌——沒有音樂、沒有噪音，可以直接用於轉寫或其他用途。
-
-> **Tip:** 做 ASR 之前先用這個。背景音樂會干擾語音識別模型——先去音樂，再做識別，字幕更乾淨。
+或告訴你的 agent：`install speech-denoise`、`install speech-isolate` 或 `install speech-transcribe`。
 
 ---
 
@@ -60,24 +58,25 @@ npx skills add speech2srt/skills
 
 **L4 GPU on Modal — 實測數據：**
 
-| Skill | 音頻時長 | GPU 時間 | 總耗時 | RTF |
+| Skill | 音訊時長 | GPU 時間 | 總耗時 | RTF |
 |-------|----------|---------|--------|-----|
 | speech-denoise | ~17 分鐘（2 個檔案） | 48s | 80s | 0.08x |
 | speech-isolate | ~5.8 分鐘（1 個檔案） | 90s | 135s | 0.39x |
+| speech-transcribe | ~6 分鐘（1 個檔案，large-v3） | 70s | 75s | 0.19x |
 
-> **Note:** `speech-isolate` 採用兩階段 pipeline：Demucs（人聲分離）+ ClearerVoice MossFormer2（降噪）。GPU 時間為兩階段合計。更高的 RTF 反映了每個檔案需順序運行兩個模型。
-
-Modal [L4 GPU](https://modal.com/pricing) 每小時 $0.80，但他們每月贈送 **$30 額度**——相當於 37 小時 L4 GPU 時間。按 RTF 0.4x 算，**你可以處理超過 93 小時的音頻，分文不花**。個人創作者或小型工作室，綽綽有餘。
+> Modal [L4 GPU](https://modal.com/pricing) 每小時 $0.80，但他們每月贈送 **$30 額度**——相當於 37 小時 L4 GPU 時間。按 RTF 0.4x 算，**你可以處理超過 93 小時的音訊，分文不花**。個人創作者或小型工作室，綽綽有餘。
 
 ---
 
 ## 🙏 Acknowledgments
 
-- [Modal](https://modal.com) — GPU 雲端基礎設施
-- [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — 語音增強工具包（MossFormer2 模型）
-- [Demucs](https://github.com/facebookresearch/demucs) — 音樂源分離模型（htdemucs_ft）
-- [skills.sh](https://skills.sh) — 開放 Agent Skills 生態
-- [ClawHub](https://clawhub.ai) — OpenClaw Skills 分發平台
+- [Modal](https://modal.com) — GPU 基礎設施
+- [ClearerVoice-Studio](https://huggingface.co/samson-castalk/ClearerVoice-Studio) — MossFormer2
+- [Demucs](https://github.com/facebookresearch/demucs) — 人聲分離
+- [Whisper](https://github.com/openai/whisper) — 語音識別
+- [faster-whisper](https://github.com/guillaumekln/faster-whisper) — 快速推理
+- [skills.sh](https://skills.sh) — Skills 生態
+- [ClawHub](https://clawhub.ai) — 分發平台
 
 ---
 
