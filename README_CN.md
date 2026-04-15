@@ -62,7 +62,6 @@ npx skills add speech2srt/skills
 |-------|----------|---------|--------|-----|
 | speech-denoise | ~17 分钟（2 个文件） | 48s | 80s | 0.08x |
 | speech-isolate | ~5.8 分钟（1 个文件） | 90s | 135s | 0.39x |
-| speech-transcribe | ~6 分钟（1 个文件，large-v3） | 59s | 73s | 0.21x |
 
 **speech-transcribe 模型选项**（~6 分钟音频实测）：
 
@@ -72,7 +71,7 @@ npx skills add speech2srt/skills
 | base | 4.1s | 18.0s | 29s | 0.08x |
 | small | 5.9s | 24.0s | 36s | 0.10x |
 | medium | 10.3s | 36.3s | 51s | 0.15x |
-| large-v3 | 8.3s | 58.8s | 73s | 0.21x |
+| **large-v3** | 8.3s | 58.8s | 73s | 0.21x |
 
 > Modal [L4 GPU](https://modal.com/pricing) 每小时 $0.80，但他们每月赠送 **$30 额度**——相当于 37 小时 L4 GPU 时间。按 RTF 0.4x 算，**你可以处理超过 93 小时的音频，分文不花**。个人创作者或小型工作室，绰绰有余。
 
