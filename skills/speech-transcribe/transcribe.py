@@ -199,13 +199,11 @@ def _load_model(model: str) -> tuple:
 
     # device="cuda": use GPU
     # compute_type="int8_float16": L4 optimized precision/speed balance
-    # local_files_only=True: force use of cached models
     # cpu_threads=4, num_workers=4: CPU thread pool for data preprocessing
     whisper_model = stable_whisper.load_faster_whisper(
         model,
         device="cuda",
         compute_type="int8_float16",
-        local_files_only=True,
         cpu_threads=4,
         num_workers=4,
     )
