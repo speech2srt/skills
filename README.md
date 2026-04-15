@@ -62,7 +62,7 @@ Or tell your agent: `install speech-denoise`, `install speech-isolate`, or `inst
 |-------|----------------|----------|-----------|-----|
 | speech-denoise | ~17 min (2 files) | 48s | 80s | 0.08x |
 | speech-isolate | ~5.8 min (1 file) | 90s | 135s | 0.39x |
-| speech-transcribe | ~6 min (1 file, large-v3) | 70s | 75s | 0.19x |
+| speech-transcribe | ~6 min (1 file, large-v3) | 59s | 73s | 0.21x |
 
 > Modal [L4 GPU](https://modal.com/pricing) is $0.80/hr. They give **$30 free credits monthly** — 37 hours of L4 time. At RTF 0.4x, that's **93+ hours of audio for free**. Enough for a solo creator or a small studio.
 
