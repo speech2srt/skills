@@ -89,15 +89,7 @@ Before first run, verify:
 
 ## Model Options
 
-| Model | RTF (L4) | Memory | Accuracy |
-|-------|-----------|--------|----------|
-| tiny | ~0.06x | ~1GB | Low |
-| base | ~0.08x | ~1GB | Medium |
-| small | ~0.10x | ~2GB | Good |
-| medium | ~0.15x | ~5GB | High |
-| large-v3 | ~0.21x | ~6GB | Highest |
-
-> **Tip:** Use `large-v3` for best accuracy. Use `tiny` for fast drafts.
+Model options: `tiny`, `base`, `small`, `medium`, `large-v3`. Default: `large-v3` (best accuracy). Use `tiny` for fast drafts.
 
 ## Error Handling
 
