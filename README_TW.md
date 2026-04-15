@@ -64,6 +64,16 @@ npx skills add speech2srt/skills
 | speech-isolate | ~5.8 分鐘（1 個檔案） | 90s | 135s | 0.39x |
 | speech-transcribe | ~6 分鐘（1 個檔案，large-v3） | 59s | 73s | 0.21x |
 
+**speech-transcribe 模型選項**（~6 分鐘音訊實測）：
+
+| 模型 | 初始化 | GPU 推理 | 總耗時 | RTF |
+|------|--------|----------|--------|-----|
+| tiny | 1.2s | 15.9s | 22s | 0.06x |
+| base | 4.1s | 18.0s | 29s | 0.08x |
+| small | 5.9s | 24.0s | 36s | 0.10x |
+| medium | 10.3s | 36.3s | 51s | 0.15x |
+| large-v3 | 8.3s | 58.8s | 73s | 0.21x |
+
 > Modal [L4 GPU](https://modal.com/pricing) 每小時 $0.80，但他們每月贈送 **$30 額度**——相當於 37 小時 L4 GPU 時間。按 RTF 0.4x 算，**你可以處理超過 93 小時的音訊，分文不花**。個人創作者或小型工作室，綽綽有餘。
 
 ---
