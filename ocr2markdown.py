@@ -1,14 +1,9 @@
-"""
-Modal service: MinerU PDF-to-markdown pipeline on GPU.
-
-Usage:
-    modal run ocr2markdown.py --slug <slug>
-"""
-
+import modal
 import shutil
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 sys.path.insert(0, "/root/src")
@@ -66,46 +61,91 @@ def _flatten_and_save(work_dir: Path, stem: str):
     timeout=config.TIMEOUT_OCR2MD,
     retries=0,
 )
-def ocr2markdown(slug: str) -> list[dict]:
-    t0 = time.monotonic()
+def ocr2markdown_single(pdf_path: str, slug: str, stem: str) -> dict:
     _bootstrap_cache()
     upload_dir = Path(config.MOUNT_DATA) / slug / config.DIR_UPLOAD
     output_base = Path(config.MOUNT_DATA) / slug / config.DIR_OUTPUT
-    pdf_files = sorted(upload_dir.glob("*.pdf"))
-    if not pdf_files:
-        return []
-    results = []
-    for pdf_path in pdf_files:
-        stem = pdf_path.stem
-        work_dir = output_base / f"{stem}_ocr"
-        md_file = work_dir / f"{stem}.md"
-        if md_file.exists():
-            print(f"  [skip] {stem}.pdf")
-            continue
-        work_dir.mkdir(parents=True, exist_ok=True)
-        print(f"  [proc] {stem}.pdf")
-        t1 = time.monotonic()
-        res = subprocess.run(
-            ["mineru", "-p", str(pdf_path), "-o", str(work_dir), "-b", "pipeline"],
-            capture_output=True,
-            text=True,
-        )
-        elapsed = time.monotonic() - t1
-        if res.returncode != 0:
-            print(f"    ERROR: {res.stderr[-500:]}")
-            continue
-        _flatten_and_save(work_dir, stem)
-        if md_file.exists():
-            print(f"    done in {elapsed:.1f}s")
-            results.append({"pdf": pdf_path.name, "elapsed": elapsed})
-    images.volume_data.commit()
-    total_elapsed = time.monotonic() - t0
-    print(
-        f"\n[ocr2markdown] done. {len(results)}/{len(pdf_files)} in {total_elapsed:.1f}s"
+    work_dir = output_base / f"{stem}_ocr"
+    md_file = work_dir / f"{stem}.md"
+    if md_file.exists():
+        return {"pdf": stem, "elapsed": 0, "success": True, "error": None}
+    work_dir.mkdir(parents=True, exist_ok=True)
+    print(f"  [proc] {stem}.pdf")
+    t1 = time.monotonic()
+    res = subprocess.run(
+        ["mineru", "-p", str(pdf_path), "-o", str(work_dir), "-b", "pipeline"],
+        capture_output=True,
+        text=True,
     )
-    return results
+    elapsed = time.monotonic() - t1
+    if res.returncode != 0:
+        print(f"    ERROR: {res.stderr[-500:]}")
+        return {
+            "pdf": stem,
+            "elapsed": elapsed,
+            "success": False,
+            "error": res.stderr[-500:],
+        }
+    _flatten_and_save(work_dir, stem)
+    if md_file.exists():
+        print(f"    done in {elapsed:.1f}s")
+        return {"pdf": stem, "elapsed": elapsed, "success": True, "error": None}
+    return {
+        "pdf": stem,
+        "elapsed": elapsed,
+        "success": False,
+        "error": "md file not found",
+    }
 
 
 @images.app.local_entrypoint()
-def main(slug: str) -> None:
-    ocr2markdown.remote(slug)
+def main(slug: str, workers: int = 4, force: bool = False) -> None:
+    upload_path = f"{slug}/{config.DIR_UPLOAD}"
+    try:
+        entries = images.volume_data.listdir(upload_path)
+    except Exception as e:
+        print(f"[ocr2markdown] failed to list {upload_path}: {e}")
+        return
+    pdf_entries = [
+        e
+        for e in entries
+        if e.type == modal.volume.FileEntryType.FILE and e.path.lower().endswith(".pdf")
+    ]
+    if not pdf_entries:
+        print(f"[ocr2markdown] no PDFs found in volume:{upload_path}")
+        return
+    pending = []
+    for entry in pdf_entries:
+        stem = Path(entry.path).stem
+        if not force:
+            try:
+                images.volume_data.listdir(f"{slug}/{config.DIR_OUTPUT}/{stem}_ocr")
+                print(f"  [skip] {stem}.pdf")
+                continue
+            except Exception:
+                pass
+        pdf_path = f"{config.MOUNT_DATA}/{entry.path}"
+        pending.append((pdf_path, stem))
+    if not pending:
+        print("[ocr2markdown] all PDFs already processed")
+        return
+    print(f"[ocr2markdown] {len(pending)} PDF(s) with {workers} parallel containers")
+    t0 = time.monotonic()
+    results = []
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futures = {
+            ex.submit(ocr2markdown_single.remote, str(p), slug, s): s
+            for p, s in pending
+        }
+        for future in as_completed(futures):
+            stem = futures[future]
+            try:
+                result = future.result()
+                results.append(result)
+            except Exception as e:
+                results.append(
+                    {"pdf": stem, "elapsed": 0, "success": False, "error": str(e)}
+                )
+    total_elapsed = time.monotonic() - t0
+    ok = sum(1 for r in results if r["success"])
+    print(f"\n[ocr2markdown] done. {ok}/{len(results)} in {total_elapsed:.1f}s")
