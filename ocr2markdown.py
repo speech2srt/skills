@@ -27,6 +27,35 @@ def _bootstrap_cache():
     models_dir.mkdir(parents=True, exist_ok=True)
 
 
+def _move_into(src: Path, dst_dir: Path):
+    if src.name == "images" and (dst_dir / "images").exists():
+        return
+    dst = dst_dir / src.name
+    if dst.exists():
+        return
+    shutil.move(str(src), str(dst))
+
+
+def _flatten_and_save(work_dir: Path, stem: str):
+    nested_pdf_dir = work_dir / stem
+    if nested_pdf_dir.exists():
+        for f in nested_pdf_dir.iterdir():
+            if f.is_dir():
+                if f.name == "auto":
+                    for f2 in f.iterdir():
+                        _move_into(f2, work_dir)
+                else:
+                    _move_into(f, work_dir)
+            else:
+                _move_into(f, work_dir)
+        shutil.rmtree(nested_pdf_dir)
+    nested_auto_dir = work_dir / "auto"
+    if nested_auto_dir.exists():
+        for f in nested_auto_dir.iterdir():
+            _move_into(f, work_dir)
+        shutil.rmtree(nested_auto_dir)
+
+
 @images.app.function(
     image=images.image_ocr2markdown,
     gpu=config.GPU_TYPE,
@@ -39,70 +68,41 @@ def _bootstrap_cache():
 )
 def ocr2markdown(slug: str) -> list[dict]:
     t0 = time.monotonic()
-
     _bootstrap_cache()
-
     upload_dir = Path(config.MOUNT_DATA) / slug / config.DIR_UPLOAD
     output_base = Path(config.MOUNT_DATA) / slug / config.DIR_OUTPUT
-
     pdf_files = sorted(upload_dir.glob("*.pdf"))
     if not pdf_files:
         return []
-
-    print(f"[ocr2markdown] {len(pdf_files)} PDF(s) to process")
-
     results = []
     for pdf_path in pdf_files:
-        basename = pdf_path.stem
-        work_dir = output_base / f"{basename}_ocr"
-
-        md_file = work_dir / f"{basename}.md"
+        stem = pdf_path.stem
+        work_dir = output_base / f"{stem}_ocr"
+        md_file = work_dir / f"{stem}.md"
         if md_file.exists():
-            print(f"  Skipping: {basename}.pdf (already processed)")
-            results.append({"pdf": pdf_path.name, "output_dir": str(work_dir)})
+            print(f"  [skip] {stem}.pdf")
             continue
-
         work_dir.mkdir(parents=True, exist_ok=True)
-
-        print(f"  Parsing: {basename}.pdf")
-
-        result = subprocess.run(
+        print(f"  [proc] {stem}.pdf")
+        t1 = time.monotonic()
+        res = subprocess.run(
             ["mineru", "-p", str(pdf_path), "-o", str(work_dir), "-b", "pipeline"],
             capture_output=True,
             text=True,
         )
-
-        if result.returncode != 0:
-            print(f"    ERROR: {result.stderr[-500:]}")
+        elapsed = time.monotonic() - t1
+        if res.returncode != 0:
+            print(f"    ERROR: {res.stderr[-500:]}")
             continue
-
-        inner_pdf_dir = work_dir / basename
-        if inner_pdf_dir.exists():
-            for f in inner_pdf_dir.iterdir():
-                if f.is_dir():
-                    if f.name == "auto":
-                        for f2 in f.iterdir():
-                            shutil.move(str(f2), str(work_dir))
-                    else:
-                        shutil.move(str(f), str(work_dir))
-            shutil.rmtree(inner_pdf_dir)
-
-        inner_auto_dir = work_dir / "auto"
-        if inner_auto_dir.exists():
-            for f in inner_auto_dir.iterdir():
-                shutil.move(str(f), str(work_dir))
-            shutil.rmtree(inner_auto_dir)
-
-        md_file = work_dir / f"{basename}.md"
+        _flatten_and_save(work_dir, stem)
         if md_file.exists():
-            print(f"    -> {work_dir}/")
-            results.append({"pdf": pdf_path.name, "output_dir": str(work_dir)})
-
+            print(f"    done in {elapsed:.1f}s")
+            results.append({"pdf": pdf_path.name, "elapsed": elapsed})
     images.volume_data.commit()
-
-    elapsed = time.monotonic() - t0
-    print(f"\n[ocr2markdown] done. {len(results)} file(s) in {elapsed:.1f}s")
-
+    total_elapsed = time.monotonic() - t0
+    print(
+        f"\n[ocr2markdown] done. {len(results)}/{len(pdf_files)} in {total_elapsed:.1f}s"
+    )
     return results
 
 

@@ -14,7 +14,7 @@ _image = (
     modal.Image.from_registry("vllm/vllm-openai:v0.11.2", add_python="3.12")
     .entrypoint([])
     .run_commands(
-        "python3 -m pip install --no-cache-dir 'mineru[core]>=3.0.0' opencv-python-headless --break-system-packages -q"
+        "python3 -m pip install --no-cache-dir 'mineru[core]>=3.0.0,<4.0.0' opencv-python-headless --break-system-packages -q"
     )
     .env(
         {
