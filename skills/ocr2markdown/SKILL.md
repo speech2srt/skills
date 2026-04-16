@@ -62,7 +62,13 @@ modal volume get speech2srt-data <slug>/output/ <local_destination>/
 
 Preserve original directory tree.
 
-### 5. Report
+### 5. Clean up
+
+```bash
+modal volume rm speech2srt-data <slug> --recursive
+```
+
+### 6. Report
 
 ```
 Done. Parsed N PDF(s) in Xs
@@ -81,11 +87,3 @@ Before first run, verify:
    - `token_id` null → `modal setup` to authenticate
    - command not found → `pip install modal` then `modal setup`
 3. **Modal free tier** — L4 GPU is $0.80/hr. New accounts get **$30 free credits/month** (~37 hours of L4). No setup needed beyond authentication.
-
-## Performance
-
-| PDF Size | Pages | Time/PDF |
-|----------|-------|----------|
-| ~40-55 MB | varies | ~110-130s each |
-
-Pipeline auto-skips PDFs with existing output.

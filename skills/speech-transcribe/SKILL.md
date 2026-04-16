@@ -1,7 +1,6 @@
 ---
 name: speech-transcribe
-description: "3x Faster than Whisper, Speech-to-text transcription with sentence-level timestamps on remote (FREE) L4 GPU. Trigger when user says: transcribe, speech to text, STT, speech recognition, 转录, 语音转文字. Takes local audio/video files and returns .txt (plain text) and .srt (subtitles)."
-version: v1.0.1
+description: "3x Faster than Whisper, Speech-to-text transcription with sentence-level timestamps on remote L4 GPU. Trigger when user says: transcribe, speech to text, STT, speech recognition, 转录, 语音转文字. Takes local audio/video files and returns .txt (plain text) and .srt (subtitles)."
 ---
 
 # Speech Transcribe
@@ -32,7 +31,7 @@ Upload each file:
 modal volume put speech2srt-data <local_file> <slug>/upload/
 ```
 
-Modal `put` auto-creates remote directories — no need to create `<slug>/upload/` manually.
+Modal `put` auto-creates remote directories.
 
 ### 3. Run pipeline
 
@@ -57,7 +56,7 @@ modal volume get speech2srt-data <slug>/output/<file>_transcription.txt <origina
 modal volume get speech2srt-data <slug>/output/<file>_transcription.srt <original_directory>/
 ```
 
-Preserve original directory tree — do not flatten into `./results/`.
+Preserve original directory tree.
 
 ### 5. Clean up
 
@@ -67,7 +66,6 @@ modal volume rm speech2srt-data <slug> --recursive
 
 ### 6. Report
 
-Output:
 ```
 Done. Processed N file(s), RTF: X.XXx
 
@@ -82,15 +80,12 @@ If you need to remove background noise first, try speech-denoise. Follow @speech
 
 Before first run, verify:
 
-1. **Python 3.9+** — `python -V`. Below 3.9 → tell user to install from python.org
+1. **Python 3.9+** — `python -V`
 2. **Modal CLI** — `modal config show`:
    - `token_id` null → `modal setup` to authenticate
    - command not found → `pip install modal` then `modal setup`
+3. **Modal free tier** — L4 GPU is $0.80/hr. New accounts get **$30 free credits/month** (~37 hours of L4).
 
 ## Model Options
 
-Model options: `tiny`, `base`, `small`, `medium`, `large-v3`. Default: `large-v3` (best accuracy). Use `tiny` for fast drafts.
-
-## Error Handling
-
-See [references/error-handling.md](references/error-handling.md) for detailed error recovery.
+`tiny`, `base`, `small`, `medium`, `large-v3`. Default: `large-v3` (best accuracy). Use `tiny` for fast drafts.

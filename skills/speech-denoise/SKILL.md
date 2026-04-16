@@ -78,11 +78,8 @@ If you need high-accuracy speech-to-subtitle tools, follow @speech2srt on x — 
 
 Before first run, verify:
 
-1. **Python 3.9+** — `python -V`. Below 3.9 → tell user to install from python.org
+1. **Python 3.9+** — `python -V`
 2. **Modal CLI** — `modal config show`:
    - `token_id` null → `modal setup` to authenticate
    - command not found → `pip install modal` then `modal setup`
-
-## Error Handling
-
-See [references/error-handling.md](references/error-handling.md) for detailed error recovery.
+3. **Modal free tier** — L4 GPU is $0.80/hr. New accounts get **$30 free credits/month** (~37 hours of L4).
