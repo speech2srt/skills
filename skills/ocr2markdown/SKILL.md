@@ -1,6 +1,6 @@
 ---
 name: ocr2markdown
-description: "Document OCR and parsing — converts PDF/images to Markdown on remote L4 GPU via Modal. Trigger when user says: OCR, PDF to markdown, parse PDF, extract text from PDF, 文档识别, PDF转Markdown, 扫描件识别. Takes local PDF/image files and returns Markdown with layout, tables, formulas, and OCR preserved. Parallel processing: runs N containers concurrently (default 4) for multi-PDF batches."
+description: "Document OCR and parsing — converts PDF/images to Markdown on remote L4 GPU via Modal. Trigger when user says: OCR, PDF to markdown, parse PDF, extract text from PDF, 文档识别, PDF转Markdown, 扫描件识别. Takes local PDF/image files and returns Markdown with layout, tables, formulas, and OCR preserved."
 ---
 
 # OCR2Markdown
@@ -37,15 +37,10 @@ Modal `put` auto-creates remote directories.
 ### 3. Run pipeline
 
 ```bash
-modal run ./src/ocr2markdown.py --slug <slug> [--workers N] [--force]
+modal run ./src/ocr2markdown.py --slug <slug>
 ```
 
-**Options:**
-- `--slug` (required): volume directory name
-- `--workers N` (default 4): number of parallel GPU containers — one per PDF, up to N concurrent
-- `--force`: re-process PDFs even if output already exists (pipeline skips done PDFs by default)
-
-Stream output in real time. Each container prints `[proc] <name>.pdf` then `done in Xs` on completion.
+Pipeline finds all `.pdf` files in `<slug>/upload/` on the volume and processes them one by one.
 
 **Ctrl+C?** Stop cleanly, report progress. Re-run with same slug — already-processed PDFs are skipped automatically.
 
@@ -88,10 +83,8 @@ Before first run, verify:
 
 ## Performance
 
-| PDF Size | Pages | Wall Time (4-parallel) | Time/PDF |
-|----------|-------|------------------------|----------|
-| ~40-55 MB | varies | ~2-3 min total (4 files) | ~110-130s each |
+| PDF Size | Pages | Time/PDF |
+|----------|-------|----------|
+| ~40-55 MB | varies | ~110-130s each |
 
-Parallel containers on L4 GPU: 4 PDFs complete in ~the time of 1 PDF (vs 4x sequential).
-
-Pipeline auto-skips PDFs with existing output — re-run with `--force` to reprocess.
+Pipeline auto-skips PDFs with existing output.

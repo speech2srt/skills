@@ -22,6 +22,3 @@ TIMEOUT_OCR2MD = 7200
 
 # App name
 APP_NAME = "speech2srt.com"
-
-# Max parallel containers for batch processing (one GPU per container)
-MAX_PARALLEL_PDFS = 4
