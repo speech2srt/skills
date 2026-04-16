@@ -1,7 +1,7 @@
 ---
 name: speech-transcribe
 description: "3x Faster than Whisper, Speech-to-text transcription with sentence-level timestamps on remote (FREE) L4 GPU. Trigger when user says: transcribe, speech to text, STT, speech recognition, 转录, 语音转文字. Takes local audio/video files and returns .txt (plain text) and .srt (subtitles)."
-version: v1.0.0
+version: v1.0.1
 ---
 
 # Speech Transcribe
