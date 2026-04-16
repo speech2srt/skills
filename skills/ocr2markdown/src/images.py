@@ -1,12 +1,14 @@
 import os
 from pathlib import Path
 import modal
-import ocr2md_config as config
+import config as ocr2md_config
 
 
-volume_data = modal.Volume.from_name(config.VOLUME_DATA_NAME, create_if_missing=True)
+volume_data = modal.Volume.from_name(
+    ocr2md_config.VOLUME_DATA_NAME, create_if_missing=True
+)
 volume_models = modal.Volume.from_name(
-    config.VOLUME_MODELS_NAME, create_if_missing=True
+    ocr2md_config.VOLUME_MODELS_NAME, create_if_missing=True
 )
 
 
@@ -24,12 +26,12 @@ _image = (
         }
     )
     .add_local_file(
-        os.path.dirname(__file__) + "/ocr2md_config.py",
-        remote_path="/root/src/ocr2md_config.py",
+        os.path.dirname(__file__) + "/config.py",
+        remote_path="/root/src/config.py",
     )
     .add_local_file(
-        os.path.dirname(__file__) + "/ocr2md_images.py",
-        remote_path="/root/src/ocr2md_images.py",
+        os.path.dirname(__file__) + "/images.py",
+        remote_path="/root/src/images.py",
     )
 )
 
@@ -37,4 +39,4 @@ _image = (
 image_ocr2markdown = _image
 
 
-app = modal.App(config.APP_NAME)
+app = modal.App(ocr2md_config.APP_NAME)

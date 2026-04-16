@@ -8,7 +8,7 @@ version: v1.0.0
 
 MinerU document parsing pipeline on remote Modal GPU — PDF/image → Markdown with layout, tables, formulas, and OCR preserved.
 
-**Pipeline code is bundled** at `./ocr2markdown.py` and `./src/`. After `npx skills add`, runs from any directory.
+**Pipeline code is bundled** at `./src/ocr2markdown.py`. After `npx skills add`, runs from any directory.
 
 ## Workflow
 
@@ -37,7 +37,7 @@ Modal `put` auto-creates remote directories — no need to create `<slug>/upload
 ### 3. Run pipeline
 
 ```bash
-modal run ./ocr2markdown.py --slug <slug>
+modal run ./src/ocr2markdown.py --slug <slug>
 ```
 
 Stream output in real time.

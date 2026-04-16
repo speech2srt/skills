@@ -7,8 +7,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 sys.path.insert(0, "/root/src")
-import ocr2md_config as config
-import ocr2md_images as images
+import config
+import images
 
 
 def _bootstrap_cache():
